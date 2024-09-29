@@ -6,7 +6,18 @@ using System.Threading.Tasks;
 
 namespace HospitalManagementSystem
 {
-    internal class Person
+    public abstract class Person
     {
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public enum Gender;
+
+        public Person(string Name, int Age)
+        {
+            this.Name = Name;
+            this.Age = Age;
+        }
+
+        public abstract void DisplayInfo();
     }
 }

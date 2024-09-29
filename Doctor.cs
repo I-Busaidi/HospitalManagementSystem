@@ -6,7 +6,32 @@ using System.Threading.Tasks;
 
 namespace HospitalManagementSystem
 {
-    internal class Doctor
+    public class Doctor : Person
     {
+        private int DoctorID;
+        private string Specialization;
+        private List<Patient> PatientsList;
+
+        public Doctor(string Name, int Age, int DoctorID, string Specialization) : base(Name, Age)
+        {
+            this.DoctorID = DoctorID;
+            this.Specialization = Specialization;
+            PatientsList = new List<Patient>();
+        }
+
+        public void AddPatient(Patient patient)
+        {
+            PatientsList.Add(patient);
+        }
+
+        public void RemovePatient(Patient patient)
+        {
+            PatientsList?.Remove(patient);
+        }
+
+        public override void DisplayInfo()
+        {
+            
+        }
     }
 }
