@@ -9,13 +9,20 @@ namespace HospitalManagementSystem
     public class Room
     {
         public int RoomNumber;
-        public enum RoomType;
+        public enum RoomType
+        {
+            General,
+            ICU,
+            OperationTheatre
+        }
+        public RoomType roomType;
 
         public bool IsOccupied = false;
 
-        public Room(int RoomNumber)
+        public Room(int RoomNumber, RoomType roomType)
         {
             this.RoomNumber = RoomNumber;
+            this.roomType = roomType;
         }
 
         public void OccupyRoom()

@@ -13,10 +13,11 @@ namespace HospitalManagementSystem
         private Doctor AssignedDoctor;
         private Room Room;
 
-        public Patient(string Name, int Age, int PatientID, string Ailment) : base(Name, Age)
+        public Patient(int PatientID, string Name, int Age, Gender gender, string Ailment, Doctor doctor) : base(Name, Age, gender)
         {
             this.PatientID = PatientID;
             this.Ailment = Ailment;
+            AssignedDoctor = doctor;
         }
 
         public void AssignRoom(Room room)
@@ -31,7 +32,8 @@ namespace HospitalManagementSystem
 
         public override void DisplayInfo()
         {
-            
+            Console.WriteLine($"Name: {Name}, Age: {Age}, Gender: {gender}");
+            Console.WriteLine($"PatientID: {PatientID}, Ailment: {Ailment}, Doctor: {AssignedDoctor.Name}");
         }
     }
 }

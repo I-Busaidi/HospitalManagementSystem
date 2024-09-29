@@ -10,12 +10,19 @@ namespace HospitalManagementSystem
     {
         public string Name { get; set; }
         public int Age { get; set; }
-        public enum Gender;
+        public enum Gender
+        {
+            Male,
+            Female,
+            Other
+        }
+        public Gender gender;
 
-        public Person(string Name, int Age)
+        public Person(string Name, int Age, Gender gender)
         {
             this.Name = Name;
             this.Age = Age;
+            this.gender = gender;
         }
 
         public abstract void DisplayInfo();

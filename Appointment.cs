@@ -12,10 +12,11 @@ namespace HospitalManagementSystem
         public Doctor Doctor { get; set; }
         public DateTime AppointmentDate { get; set; }
 
-        public Appointment(Patient patient, Doctor doctor)
+        public Appointment(Patient patient, Doctor doctor, DateTime AppointmentDate)
         {
             Patient = patient;
             Doctor = doctor;
+            this.AppointmentDate = AppointmentDate;
         }
 
         public void ScheduleAppointment(DateTime date)
