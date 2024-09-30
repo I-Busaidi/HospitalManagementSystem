@@ -39,5 +39,15 @@ namespace HospitalManagementSystem
         {
             return PatientsList;
         }
+
+        public int GetID()
+        {
+            return DoctorID;
+        }
+
+        public string GetSpec()
+        {
+            return Specialization;
+        }
     }
 }

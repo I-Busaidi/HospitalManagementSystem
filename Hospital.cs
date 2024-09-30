@@ -30,6 +30,11 @@ namespace HospitalManagementSystem
             PatientsList.Add(patient);
         }
 
+        public void AddRoom(Room room)
+        {
+            RoomsList.Add(room);
+        }
+
         public void AssignRoomToPatient(Patient patient, Room room)
         {
             patient.AssignRoom(room);
@@ -45,6 +50,21 @@ namespace HospitalManagementSystem
             {
                 Console.WriteLine($"Name: {DocPatients[i].Name}, ID: {DocPatients[i].GetID()}, Ailment: {DocPatients[i].GetAilment()}");
             }
+        }
+
+        public List<Doctor> GetDoctors()
+        {
+            return DoctorsList;
+        }
+
+        public List<Patient> GetPatients()
+        {
+            return PatientsList;
+        }
+
+        public List<Room> GetRooms() 
+        { 
+            return RoomsList; 
         }
     }
 }
