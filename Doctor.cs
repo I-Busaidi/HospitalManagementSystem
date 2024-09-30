@@ -34,5 +34,10 @@ namespace HospitalManagementSystem
             Console.WriteLine($"Name: {Name}, Age: {Age}, Gender: {gender}");
             Console.WriteLine($"DoctorID: {DoctorID}, Specialization: {Specialization}");
         }
+
+        public List<Patient> GetPatients()
+        {
+            return PatientsList;
+        }
     }
 }

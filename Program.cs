@@ -7,6 +7,7 @@ namespace HospitalManagementSystem
     {
         static void Main(string[] args)
         {
+            Hospital hospital = new Hospital();
             // Test Case 1: Create doctors and patients
             Console.WriteLine("===== Test Case 1: Create Doctors and Patients =====");
             Doctor doctor1 = new Doctor(1, "Dr. Smith", 45, Gender.Male, "Cardiology");
@@ -42,9 +43,17 @@ namespace HospitalManagementSystem
             patient1.Discharge();
             Console.WriteLine($"Patient {patient1.Name} has been discharged. Room { room1.RoomNumber} is now occupied: { room1.IsOccupied}");
             // Test Case 5: Display doctor-patient details
-            Console.WriteLine("\n===== Test Case 5: Display Doctor-Patient Details =====");
+            Console.WriteLine("\n===== Test Case 5: Display Doctor Details =====");
             doctor1.DisplayInfo();
             doctor2.DisplayInfo();
+
+            Console.WriteLine("\n===== Test Case 6: Display Doctor-Patient Details =====");
+            Patient patient3 = new Patient(104, "Donald Trump", 28, Gender.Male, "Migraine", doctor2);
+            Patient patient4 = new Patient(106, "Will Smith", 28, Gender.Male, "Fever", doctor2);
+            Patient patient5 = new Patient(107, "Peter Roe", 28, Gender.Male, "Acid reflex", doctor2);
+            Patient patient6 = new Patient(109, "Jane Hammilton", 28, Gender.Female, "Migraine", doctor2);
+
+            hospital.GetDoctorPatients(doctor2);
 
         }
     }

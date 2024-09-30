@@ -10,7 +10,7 @@ namespace HospitalManagementSystem
     {
         public Patient Patient { get; set; }
         public Doctor Doctor { get; set; }
-        public DateTime AppointmentDate { get; set; }
+        public DateTime? AppointmentDate { get; set; }
 
         public Appointment(Patient patient, Doctor doctor, DateTime AppointmentDate)
         {
@@ -26,12 +26,12 @@ namespace HospitalManagementSystem
 
         public void CancelAppointment()
         {
-
+            AppointmentDate = null;
         }
 
         public void GetAppointmentDetails()
         {
-
+            Console.WriteLine($"Appointment Scheduled for {Patient.Name} with {Doctor.Name} on {AppointmentDate.Value.ToString("MMMM dd, yyyy a\\t h:mm:sstt")}");
         }
     }
 }

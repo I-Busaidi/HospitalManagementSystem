@@ -18,22 +18,35 @@ namespace HospitalManagementSystem
             this.PatientID = PatientID;
             this.Ailment = Ailment;
             AssignedDoctor = doctor;
+            doctor.AddPatient(this);
         }
 
         public void AssignRoom(Room room)
         {
-
+            Room = room;
+            Room.OccupyRoom();
+            Console.WriteLine($"{Name} Assigned to room {room.RoomNumber}");
         }
 
         public void Discharge()
         {
-
+            Room.VacateRoom();
+            Room = null;
         }
 
         public override void DisplayInfo()
         {
             Console.WriteLine($"Name: {Name}, Age: {Age}, Gender: {gender}");
             Console.WriteLine($"PatientID: {PatientID}, Ailment: {Ailment}, Doctor: {AssignedDoctor.Name}");
+        }
+
+        public int GetID()
+        {
+            return PatientID;
+        }
+        public string GetAilment()
+        {
+            return Ailment;
         }
     }
 }
