@@ -24,8 +24,6 @@ namespace HospitalManagementSystem
         public void AssignRoom(Room room)
         {
             Room = room;
-            Room.OccupyRoom();
-            Console.WriteLine($"{Name} Assigned to room {room.RoomNumber}");
         }
 
         public void Discharge()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace HospitalManagementSystem
 {
@@ -32,6 +33,8 @@ namespace HospitalManagementSystem
         public void AssignRoomToPatient(Patient patient, Room room)
         {
             patient.AssignRoom(room);
+            room.OccupyRoom();
+            Console.WriteLine($"{patient.Name} Assigned to room {room.RoomNumber}");
         }
 
         public void GetDoctorPatients(Doctor doctor)

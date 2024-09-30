@@ -23,8 +23,13 @@ namespace HospitalManagementSystem
             Console.WriteLine("\n===== Test Case 2: Room Assignment =====");
             Room room1 = new Room(202, RoomType.ICU);
             Room room2 = new Room(203, RoomType.General);
-            patient1.AssignRoom(room1);
-            patient2.AssignRoom(room2);
+
+            hospital.AssignRoomToPatient(patient1, room1);
+            hospital.AssignRoomToPatient(patient2, room2);
+            //patient1.AssignRoom(room1);
+            //patient2.AssignRoom(room2);
+
+
             // Display room details
             Console.WriteLine($"Room {room1.RoomNumber} is occupied: {room1.IsOccupied}");
             Console.WriteLine($"Room {room2.RoomNumber} is occupied: {room2.IsOccupied}");
