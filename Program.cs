@@ -70,7 +70,7 @@ namespace HospitalManagementSystem
 
 
             // Cancel an appointment
-            cardiologyClinic.BookAppointment(outpatient1, new DateTime(2024, 10, 5), TimeSpan.FromHours(10));
+            cardiologyClinic.CancelAppointment(outpatient1, new DateTime(2024, 10, 5), TimeSpan.FromHours(10));
             // Expected: Appointment cancellation message for 10 AM
 
 

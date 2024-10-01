@@ -39,8 +39,6 @@ namespace HospitalManagementSystem
         public void CancelAppointment(DateTime date, TimeSpan period)
         {
             Patient = null;
-            AppointmentDate = null;
-            AppointmentTime = null;
             IsBooked = false;
         }
 

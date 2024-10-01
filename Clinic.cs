@@ -65,14 +65,29 @@ namespace HospitalManagementSystem
         {
             foreach (var Kvp in AvailableAppointments)
             {
-                    for (int i = 0; i < Kvp.Value.Count; i++)
+                for (int i = 0; i < Kvp.Value.Count; i++)
+                {
+                    if (Kvp.Value[i].AppointmentDate == appointmentDay && Kvp.Value[i].AppointmentTime == appointmentTime && !Kvp.Value[i].IsBooked)
                     {
-                        if (Kvp.Value[i].AppointmentDate == appointmentDay && Kvp.Value[i].AppointmentTime == appointmentTime && !Kvp.Value[i].IsBooked)
-                        {
-                            Kvp.Value[i].ScheduleAppointment(patient, appointmentDay, appointmentTime);
-                            return;
-                        }
+                        Kvp.Value[i].ScheduleAppointment(patient, appointmentDay, appointmentTime);
+                        return;
                     }
+                }
+            }
+        }
+
+        public void CancelAppointment(Patient patient, DateTime appointmentDay, TimeSpan appointmentTime)
+        {
+            foreach (var Kvp in AvailableAppointments)
+            {
+                for (int i = 0; i < Kvp.Value.Count; i++)
+                {
+                    if (Kvp.Value[i].AppointmentDate == appointmentDay && Kvp.Value[i].AppointmentTime == appointmentTime && Kvp.Value[i].IsBooked )
+                    {
+                        Kvp.Value[i].CancelAppointment(appointmentDay, appointmentTime);
+                        return;
+                    }
+                }
             }
         }
 
