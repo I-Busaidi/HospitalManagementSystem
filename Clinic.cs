@@ -8,15 +8,15 @@ namespace HospitalManagementSystem
 {
     public class Clinic
     {
-        protected int ClinicID;
-        protected string ClinicName;
+        public int ClinicID;
+        public string ClinicName;
         public enum Specialization
         {
             Cardiology, Neurology, Dermatology
         }
         public Specialization specialization;
-        protected List<Room> rooms;
-        protected Dictionary<Doctor, List<Appointment>> AvailableAppointments;
+        public List<Room> rooms = new List<Room>();
+        public Dictionary<Doctor, List<Appointment>> AvailableAppointments = new Dictionary<Doctor, List<Appointment>>();
 
         public Clinic(int ClinicID, string ClinicName, Specialization specialization)
         {
@@ -30,33 +30,58 @@ namespace HospitalManagementSystem
             rooms.Add(room);
         }
 
-        public void AddAvailableAppointment(Patient patient, Doctor doctor, DateTime appointmentDay, TimeSpan period)
+        public void AddAvailableAppointment(Doctor doctor, DateTime appointmentDay, TimeSpan period)
         {
-            Appointment appointment = new Appointment(patient, appointmentDay, period);
-            AvailableAppointments[doctor].Add(appointment);
+            int hrs = period.Hours;
+            for(int i = 0; i < hrs; i++)
+            {
+                Appointment appointment = new Appointment(appointmentDay, TimeSpan.FromHours(9+i));
+                AvailableAppointments[doctor].Add(appointment);
+            }
         }
 
-        public string DisplayAvailableAppointments()
+        public void BookAppointment(Patient patient, Doctor doctor, DateTime appointmentDay, TimeSpan appointmentTime)
+        {
+
+        }
+
+        public void BookAppointment(Patient patient, DateTime appointmentDay, TimeSpan appointmentTime)
+        {
+
+        }
+
+        public void DisplayAvailableAppointments()
         {
             StringBuilder sb = new StringBuilder();
-            string border = new string('-', 90);
-            sb.AppendLine($"{"Doctor", -20} | {"Day", -30} | {"Period", -30} | {"Patient", -20}");
+            string border = new string('-', 65);
+            sb.AppendLine($"{"Doctor", -20} | {"Day", -30} | {"Period", -30}");
             sb.AppendLine(border);
 
-            foreach(var Kvp in AvailableAppointments)
+            foreach (var Kvp in AvailableAppointments)
             {
-                sb.Append($"{Kvp.Key.Name, -20} | ");
-                for (int i = 0;i < Kvp.Value.Count;i++)
+                sb.Append($"{Kvp.Key.Name,-20} | ");
+                for (int i = 0; i < Kvp.Value.Count; i++)
                 {
-                    sb.AppendLine($"{Kvp.Value[i].AppointmentDate.Value.ToString("dddd mm, yyyy"),-30} " +
-                        $"| {Kvp.Value[i].AppointmentTime.ToString(),-30} | {Kvp.Value[i].Patient.Name,-20}");
-                    sb.Append($"{"",-20} | ");
+                    if (i == 0)
+                    {
+                        sb.AppendLine($"{Kvp.Value[i].AppointmentDate.Value.ToString("ddd ~ dd MMM, yyyy"),-30} " +
+                        $"| {Kvp.Value[i].AppointmentTime.ToString(),-30}");
+                    }
+                    else
+                    {
+                        sb.AppendLine($"{"",-20} | {Kvp.Value[i].AppointmentDate.Value.ToString("ddd ~ dd MMM, yyyy"),-30} " +
+                        $"| {Kvp.Value[i].AppointmentTime.ToString(),-30}");
+                    }
+
+                    if (i != Kvp.Value.Count - 1)
+                    {
+                        sb.AppendLine($"{"",-20} | {"",-30} |");
+                    }
                 }
-                sb.AppendLine(border);
+                sb.Append(border);
             }
 
-            return sb.ToString();
+            Console.WriteLine( sb.ToString());
         }
     }
-
 }

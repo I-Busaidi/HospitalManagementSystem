@@ -9,10 +9,15 @@ namespace HospitalManagementSystem
     public class OutPatient : Patient
     {
         public Clinic ClinicAssigned;
-        public OutPatient(int PatientID, string Name, int Age, Gender gender, string Ailment, Clinic AssignedClinic) 
+        public OutPatient(string Name, int Age, Gender gender, int PatientID, string Ailment, Clinic AssignedClinic) 
             : base (PatientID, Name, Age, gender, Ailment)
         {
             ClinicAssigned = AssignedClinic;
+        }
+
+        public void BookAppointment(Clinic clinic, DateTime appointmentDay, TimeSpan appointmentTime)
+        {
+            clinic.BookAppointment(this, appointmentDay, appointmentTime);
         }
 
         public override void DisplayInfo()

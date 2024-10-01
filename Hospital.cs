@@ -43,10 +43,9 @@ namespace HospitalManagementSystem
 
         public void GetDoctorPatients(Doctor doctor)
         {
-            var DocPatients = doctor.GetPatients();
             Console.WriteLine($"Patients of {doctor.Name}:");
 
-            for (int i = 0; i < DocPatients.Count; i++)
+            for (int i = 0; i < doctor.PatientsList.Count; i++)
             {
                 
             }

@@ -8,15 +8,49 @@ namespace HospitalManagementSystem
 {
     public class Doctor : Person
     {
-        private int DoctorID;
-        private string Specialization;
-        private List<Patient> PatientsList;
+        public int DoctorID;
+        public enum DocSpecialization
+        {
+            Cardiology, Neurology, Dermatology
+        }
 
-        public Doctor(int DoctorID, string Name, int Age, Gender gender, string Specialization) : base(Name, Age, gender)
+        public DocSpecialization specialization;
+
+        public List<Clinic> AssignedClinics = new List<Clinic>();
+        public List<Patient> PatientsList = new List<Patient>();
+
+        public Doctor(int DoctorID, string Name, int Age, Gender gender, DocSpecialization specialization) : base(Name, Age, gender)
         {
             this.DoctorID = DoctorID;
-            this.Specialization = Specialization;
+            this.specialization = specialization;
             PatientsList = new List<Patient>();
+        }
+
+        public void AssignToClinic(Clinic clinic, DateTime day, TimeSpan period)
+        {
+            
+            AssignedClinics.Add(clinic);
+            if (clinic.AvailableAppointments.ContainsKey(this))
+            {
+                clinic.AddAvailableAppointment(this, day, period);
+            }
+            else
+            {
+                clinic.AvailableAppointments.Add(this, new List<Appointment>{});
+                clinic.AddAvailableAppointment(this, day, period);
+            }
+        }
+
+        public void DisplayAssignedClinics()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"{Name} Assigned to:");
+            sb.AppendLine($"{"Clinic ID", -10} | {"Clinic Name", -20} | {"Clinic Type", -20}");
+            for (int i = 0; i < AssignedClinics.Count; i++)
+            {
+                sb.AppendLine($"{AssignedClinics[i].ClinicID, -10} | {AssignedClinics[i].ClinicName, -20} | {AssignedClinics[i].specialization, -20}");
+            }
+            Console.WriteLine( sb.ToString() );
         }
 
         public void AddPatient(Patient patient)
@@ -32,22 +66,7 @@ namespace HospitalManagementSystem
         public override void DisplayInfo()
         {
             Console.WriteLine($"Name: {Name}, Age: {Age}, Gender: {gender}");
-            Console.WriteLine($"DoctorID: {DoctorID}, Specialization: {Specialization}");
-        }
-
-        public List<Patient> GetPatients()
-        {
-            return PatientsList;
-        }
-
-        public int GetID()
-        {
-            return DoctorID;
-        }
-
-        public string GetSpec()
-        {
-            return Specialization;
+            Console.WriteLine($"DoctorID: {DoctorID}, Specialization: {specialization}");
         }
     }
 }
