@@ -11,18 +11,18 @@ namespace HospitalManagementSystem
         public int RoomNumber;
         public enum RoomType
         {
-            General,
-            ICU,
-            OperationTheatre
+            IPR,
+            OPR
         }
         public RoomType roomType;
 
-        public bool IsOccupied = false;
+        public bool IsOccupied;
 
         public Room(int RoomNumber, RoomType roomType)
         {
             this.RoomNumber = RoomNumber;
             this.roomType = roomType;
+            IsOccupied = false;
         }
 
         public void OccupyRoom()
@@ -33,6 +33,25 @@ namespace HospitalManagementSystem
         public void VacateRoom()
         {
             IsOccupied = false;
+        }
+
+        public bool GetOccupiedStatus()
+        {
+            return IsOccupied;
+        }
+
+        public string DisplayRoomInfo()
+        {
+            string RoomStatus;
+            if (IsOccupied)
+            {
+                RoomStatus = "Busy";
+            }
+            else
+            {
+                RoomStatus = "Available";
+            }
+            return $"Room Number: {RoomNumber} | Room Type: {roomType} | Room Status: {RoomStatus}";
         }
     }
 }

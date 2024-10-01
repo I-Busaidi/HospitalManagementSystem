@@ -12,7 +12,8 @@ namespace HospitalManagementSystem
         public Room? Room;
         public Doctor AssignedDoctor;
         public DateTime AdmissionDate;
-        public InPatient(int PatientID, string Name, int Age, Gender gender, string Ailment, Doctor doctor, DateTime admissionDate) : base(PatientID, Name, Age, gender, Ailment)
+        public InPatient(int PatientID, string Name, int Age, Gender gender, string Ailment, Doctor doctor, DateTime admissionDate) 
+            : base(PatientID, Name, Age, gender, Ailment)
         {
             AssignedDoctor = doctor;
             AdmissionDate = admissionDate;

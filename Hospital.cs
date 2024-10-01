@@ -37,7 +37,6 @@ namespace HospitalManagementSystem
 
         public void AssignRoomToPatient(Patient patient, Room room)
         {
-            patient.AssignRoom(room);
             room.OccupyRoom();
             Console.WriteLine($"{patient.Name} Assigned to room {room.RoomNumber}");
         }
@@ -46,9 +45,10 @@ namespace HospitalManagementSystem
         {
             var DocPatients = doctor.GetPatients();
             Console.WriteLine($"Patients of {doctor.Name}:");
+
             for (int i = 0; i < DocPatients.Count; i++)
             {
-                Console.WriteLine($"Name: {DocPatients[i].Name}, ID: {DocPatients[i].GetID()}, Ailment: {DocPatients[i].GetAilment()}");
+                
             }
         }
 
