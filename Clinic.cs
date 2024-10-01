@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace HospitalManagementSystem
 {
@@ -29,13 +30,17 @@ namespace HospitalManagementSystem
         public void AddRoom(Room room)
         {
             rooms.Add(room);
-            room.OccupyRoom();
+            Console.WriteLine($"Room {room.RoomNumber} added to {ClinicName}");
         }
 
         public void AddAvailableAppointment(Doctor doctor, DateTime appointmentDay, TimeSpan period)
         {
+            if (!AvailableAppointments.ContainsKey(doctor))
+            {
+                AvailableAppointments[doctor] = new List<Appointment>();
+            }
             int hrs = period.Hours;
-            for(int i = 0; i <= hrs; i++)
+            for(int i = 0; i < hrs; i++)
             {
                 Appointment appointment = new Appointment(appointmentDay, TimeSpan.FromHours(9+i));
                 AvailableAppointments[doctor].Add(appointment);
@@ -45,20 +50,19 @@ namespace HospitalManagementSystem
 
         public void BookAppointment(Patient patient, Doctor doctor, DateTime appointmentDay, TimeSpan appointmentTime)
         {
-            foreach(var Kvp in AvailableAppointments)
+            if (AvailableAppointments.TryGetValue(doctor, out var appointments))
             {
-                if (doctor.Name == Kvp.Key.Name)
+                foreach (var appointment in appointments)
                 {
-                    for (int i = 0;i < Kvp.Value.Count;i++)
+                    if (appointment.AppointmentDate == appointmentDay && appointment.AppointmentTime == appointmentTime && !appointment.IsBooked)
                     {
-                        if (Kvp.Value[i].AppointmentDate == appointmentDay && Kvp.Value[i].AppointmentTime == appointmentTime && !Kvp.Value[i].IsBooked)
-                        {
-                            Kvp.Value[i].ScheduleAppointment(patient, appointmentDay, appointmentTime);
-                            return;
-                        }
+                        appointment.ScheduleAppointment(patient, appointmentDay, appointmentTime);
+                        Console.WriteLine($"Appointment booked for {patient.Name} at {appointmentTime} with {doctor.Name}");
+                        return;
                     }
                 }
             }
+            Console.WriteLine("Sorry, no available appointments for this time.");
         }
 
         public void BookAppointment(Patient patient, DateTime appointmentDay, TimeSpan appointmentTime)
@@ -70,10 +74,12 @@ namespace HospitalManagementSystem
                     if (Kvp.Value[i].AppointmentDate == appointmentDay && Kvp.Value[i].AppointmentTime == appointmentTime && !Kvp.Value[i].IsBooked)
                     {
                         Kvp.Value[i].ScheduleAppointment(patient, appointmentDay, appointmentTime);
+                        Console.WriteLine($"Appointment booked for {patient.Name} at {appointmentTime}");
                         return;
                     }
                 }
             }
+            Console.WriteLine("Sorry, no available appointments for this time.");
         }
 
         public void CancelAppointment(Patient patient, DateTime appointmentDay, TimeSpan appointmentTime)
@@ -85,6 +91,7 @@ namespace HospitalManagementSystem
                     if (Kvp.Value[i].AppointmentDate == appointmentDay && Kvp.Value[i].AppointmentTime == appointmentTime && Kvp.Value[i].IsBooked )
                     {
                         Kvp.Value[i].CancelAppointment(appointmentDay, appointmentTime);
+                        Console.WriteLine($"Appointment at {appointmentTime} for patient {patient.Name} cancelled.");
                         return;
                     }
                 }
@@ -107,13 +114,13 @@ namespace HospitalManagementSystem
                     {
                         if (FirstLine)
                         {
-                            sb.AppendLine($"{Kvp.Value[i].AppointmentDate.Value.ToString("ddd ~ dd MMM, yyyy"),-30} " +
+                            sb.AppendLine($"{Kvp.Value[i].AppointmentDate.ToString("ddd ~ dd MMM, yyyy"),-30} " +
                             $"| {Kvp.Value[i].AppointmentTime.ToString(),-30}");
                             FirstLine = false;
                         }
                         else
                         {
-                            sb.AppendLine($"{"",-20} | {Kvp.Value[i].AppointmentDate.Value.ToString("ddd ~ dd MMM, yyyy"),-30} " +
+                            sb.AppendLine($"{"",-20} | {Kvp.Value[i].AppointmentDate.ToString("ddd ~ dd MMM, yyyy"),-30} " +
                             $"| {Kvp.Value[i].AppointmentTime.ToString(),-30}");
                         }
 

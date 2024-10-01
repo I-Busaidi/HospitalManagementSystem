@@ -9,61 +9,108 @@ namespace HospitalManagementSystem
 {
     public class Hospital
     {
-        private List<Doctor> DoctorsList;
-        private List<Patient> PatientsList;
-        private List<Room> RoomsList;
+        private List<Doctor> doctorsList;
+        private List<Patient> patientsList;
+        private List<Room> roomsList;
 
-        public Hospital() 
-        { 
-            DoctorsList = new List<Doctor>();
-            PatientsList = new List<Patient>();
-            RoomsList = new List<Room>();
+        public Hospital()
+        {
+            doctorsList = new List<Doctor>();
+            patientsList = new List<Patient>();
+            roomsList = new List<Room>();
         }
 
         public void AddDoctor(Doctor doctor)
         {
-            DoctorsList.Add(doctor);
+            if (!doctorsList.Contains(doctor))
+            {
+                doctorsList.Add(doctor);
+                Console.WriteLine($"Doctor {doctor.Name} added to the hospital.");
+            }
+            else
+            {
+                Console.WriteLine($"Doctor {doctor.Name} is already in the hospital.");
+            }
         }
 
         public void AddPatient(Patient patient)
         {
-            PatientsList.Add(patient);
+            if (!patientsList.Contains(patient))
+            {
+                patientsList.Add(patient);
+                Console.WriteLine($"Patient {patient.Name} added to the hospital.");
+            }
+            else
+            {
+                Console.WriteLine($"Patient {patient.Name} is already in the hospital.");
+            }
         }
 
         public void AddRoom(Room room)
         {
-            RoomsList.Add(room);
+            if (!roomsList.Any(r => r.RoomNumber == room.RoomNumber))
+            {
+                roomsList.Add(room);
+                Console.WriteLine($"Room {room.RoomNumber} added to the hospital.");
+            }
+            else
+            {
+                Console.WriteLine($"Room {room.RoomNumber} is already in the hospital.");
+            }
         }
 
-        public void AssignRoomToPatient(Patient patient, Room room)
+        public void AssignRoomToPatient(InPatient patient, Room room)
         {
-            room.OccupyRoom();
-            Console.WriteLine($"{patient.Name} Assigned to room {room.RoomNumber}");
+            if (room.IsOccupied)
+            {
+                Console.WriteLine($"Room {room.RoomNumber} is already occupied.");
+            }
+            else
+            {
+                room.OccupyRoom();
+                patient.AssignRoom(room);
+                Console.WriteLine($"Room {room.RoomNumber} assigned to patient {patient.Name}.");
+            }
         }
-
         public void GetDoctorPatients(Doctor doctor)
         {
-            Console.WriteLine($"Patients of {doctor.Name}:");
-
-            for (int i = 0; i < doctor.PatientsList.Count; i++)
+            if (doctor.PatientsList.Count == 0)
             {
-                
+                Console.WriteLine($"Doctor {doctor.Name} has no patients assigned.");
+            }
+            else
+            {
+                Console.WriteLine($"Patients of Doctor {doctor.Name}:");
+                foreach (var patient in doctor.PatientsList)
+                {
+                    Console.WriteLine($"- {patient.Name}, Ailment: {patient.Ailment}");
+                }
             }
         }
 
         public List<Doctor> GetDoctors()
         {
-            return DoctorsList;
+            return doctorsList;
         }
 
         public List<Patient> GetPatients()
         {
-            return PatientsList;
+            return patientsList;
         }
 
-        public List<Room> GetRooms() 
-        { 
-            return RoomsList; 
+        public List<Room> GetRooms()
+        {
+            return roomsList;
+        }
+
+        public void DisplayRoomStatuses()
+        {
+            Console.WriteLine("Room Statuses in the Hospital:");
+            foreach (var room in roomsList)
+            {
+                string status = room.IsOccupied ? "Occupied" : "Available";
+                Console.WriteLine($"Room {room.RoomNumber}: {status}");
+            }
         }
     }
 }

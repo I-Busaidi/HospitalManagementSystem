@@ -9,8 +9,8 @@ namespace HospitalManagementSystem
     public class Appointment
     {
         public Patient? Patient;
-        public DateTime? AppointmentDate;
-        public TimeSpan? AppointmentTime;
+        public DateTime AppointmentDate;
+        public TimeSpan AppointmentTime;
         public bool IsBooked;
 
         public Appointment(Patient patient, DateTime AppointmentDate, TimeSpan period)
@@ -44,7 +44,14 @@ namespace HospitalManagementSystem
 
         public void GetAppointmentDetails()
         {
-            Console.WriteLine($"Appointment Scheduled for {Patient.Name} on {AppointmentDate.Value.ToString("MMMM dd, yyyy a\\t h:mm:sstt")}");
+            if (IsBooked && Patient != null)
+            {
+                Console.WriteLine($"Appointment Scheduled for {Patient.Name} on {AppointmentDate.ToString("ddd MMM, yyyy a\\t h:mm:sstt")}");
+            }
+            else
+            {
+                Console.WriteLine($"No Appointment Scheduled on {AppointmentDate.ToString("ddd MMM, yyyy a\\t h:mm:sstt")}");
+            }
         }
     }
 }

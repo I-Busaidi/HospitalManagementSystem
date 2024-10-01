@@ -28,15 +28,18 @@ namespace HospitalManagementSystem
 
         public void Discharge()
         {
-            Room.VacateRoom();
-            Room = null;
+            if (Room != null)
+            {
+                Room.VacateRoom();
+                Room = null;
+            }
         }
 
         public override void DisplayInfo()
         {
             Console.WriteLine($"Patient ID: {PatientID}, Name: {Name}, Age: {Age}\n" +
                 $"Gender: {gender}, Ailment: {Ailment}, Assigned Doctor: {AssignedDoctor.Name}\n" +
-                $"Admission Date: {AdmissionDate.ToString("dddd mm, yyyy a\\t hh:mm:ss")}");
+                $"Admission Date: {AdmissionDate.ToString("ddd MMM, yyyy a\\t hh:mm:ss")}");
 
             if (Room != null)
             {

@@ -42,15 +42,7 @@ namespace HospitalManagementSystem
 
         public string DisplayRoomInfo()
         {
-            string RoomStatus;
-            if (IsOccupied)
-            {
-                RoomStatus = "Busy";
-            }
-            else
-            {
-                RoomStatus = "Available";
-            }
+            string RoomStatus = IsOccupied ? "Busy" : "Available";
             return $"Room Number: {RoomNumber} | Room Type: {roomType} | Room Status: {RoomStatus}";
         }
     }

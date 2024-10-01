@@ -23,22 +23,21 @@ namespace HospitalManagementSystem
         {
             this.DoctorID = DoctorID;
             this.specialization = specialization;
-            PatientsList = new List<Patient>();
         }
 
         public void AssignToClinic(Clinic clinic, DateTime day, TimeSpan period)
         {
-            
-            AssignedClinics.Add(clinic);
-            if (clinic.AvailableAppointments.ContainsKey(this))
+            if (!AssignedClinics.Contains(clinic))
             {
-                clinic.AddAvailableAppointment(this, day, period);
+                AssignedClinics.Add(clinic);
             }
-            else
+
+            if (!clinic.AvailableAppointments.ContainsKey(this))
             {
-                clinic.AvailableAppointments.Add(this, new List<Appointment>{});
-                clinic.AddAvailableAppointment(this, day, period);
+                clinic.AvailableAppointments.Add(this, new List<Appointment>());
             }
+
+            clinic.AddAvailableAppointment(this, day, period);
         }
 
         public void DisplayAssignedClinics()
@@ -55,7 +54,10 @@ namespace HospitalManagementSystem
 
         public void AddPatient(Patient patient)
         {
-            PatientsList.Add(patient);
+            if(!PatientsList.Contains(patient))
+            {
+                PatientsList.Add(patient);
+            }
         }
 
         public void RemovePatient(Patient patient)

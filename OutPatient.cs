@@ -24,16 +24,18 @@ namespace HospitalManagementSystem
         {
             Console.WriteLine($"Patient ID: {PatientID}, Name: {Name}, Age: {Age}\n" +
                 $"Gender: {gender}, Ailment: {Ailment}, Assigned Clinic: {ClinicAssigned.ClinicName}\n");
-
-            foreach(var Kvp in ClinicAssigned.AvailableAppointments)
+            if (ClinicAssigned != null && ClinicAssigned.AvailableAppointments != null)
             {
-                for(int i = 0; i < Kvp.Value.Count; i++)
+                foreach (var Kvp in ClinicAssigned.AvailableAppointments)
                 {
-                    if (Kvp.Value[i].Patient.Name == Name)
+                    for (int i = 0; i < Kvp.Value.Count; i++)
                     {
-                        Console.WriteLine($"Upcoming appointment: {Kvp.Value[i].AppointmentDate.Value.ToString("dddd mm, yyyy")} " +
-                            $"Time: {Kvp.Value[i].AppointmentTime.ToString()}");
-                        return;
+                        if (Kvp.Value[i].Patient.Name == Name)
+                        {
+                            Console.WriteLine($"Upcoming appointment: {Kvp.Value[i].AppointmentDate.ToString("ddd MMM, yyyy")} " +
+                                $"Time: {Kvp.Value[i].AppointmentTime.ToString()}");
+                            return;
+                        }
                     }
                 }
             }
