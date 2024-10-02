@@ -8,10 +8,10 @@ namespace HospitalManagementSystem
 {
     public class Appointment
     {
-        public Patient? Patient;
-        public DateTime AppointmentDate;
-        public TimeSpan AppointmentTime;
-        public bool IsBooked;
+        public Patient? Patient { get; private set; }
+        public DateTime AppointmentDate { get; private set; }
+        public TimeSpan AppointmentTime { get; private set; }
+        public bool IsBooked { get; private set; }
 
         public Appointment(Patient patient, DateTime AppointmentDate, TimeSpan period)
         {
@@ -25,6 +25,11 @@ namespace HospitalManagementSystem
         {
             this.AppointmentDate = AppointmentDate;
             AppointmentTime = period;
+            IsBooked = false;
+        }
+
+        public void AddAvailableFreeSlots()
+        {
             IsBooked = false;
         }
 

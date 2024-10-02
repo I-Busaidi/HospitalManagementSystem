@@ -102,5 +102,13 @@ namespace HospitalManagementSystem
             neurologyClinic.DisplayAvailableAppointments();
             // Expected: 10 AM slot available again, 9 AM and 11 AM booked
         }
+
+
+        // ------------------------------------- User - Input Section -------------------------------------|
+
+        public static void AddDoctor()
+        {
+
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace HospitalManagementSystem
 {
     public class Doctor : Person
     {
-        public int DoctorID;
+        public int DoctorID { get; private set; }
         public enum DocSpecialization
         {
             Cardiology, Neurology, Dermatology
@@ -43,12 +43,16 @@ namespace HospitalManagementSystem
         public void DisplayAssignedClinics()
         {
             StringBuilder sb = new StringBuilder();
+            string border = new string('-', 50);
             sb.AppendLine($"{Name} Assigned to:");
+            sb.AppendLine();
             sb.AppendLine($"{"Clinic ID", -10} | {"Clinic Name", -20} | {"Clinic Type", -20}");
+            sb.AppendLine(border);
             for (int i = 0; i < AssignedClinics.Count; i++)
             {
                 sb.AppendLine($"{AssignedClinics[i].ClinicID, -10} | {AssignedClinics[i].ClinicName, -20} | {AssignedClinics[i].specialization, -20}");
             }
+            sb.AppendLine(border);
             Console.WriteLine( sb.ToString() );
         }
 

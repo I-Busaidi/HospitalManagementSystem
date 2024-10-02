@@ -8,15 +8,15 @@ namespace HospitalManagementSystem
 {
     public abstract class Person
     {
-        public string Name { get; set; }
-        public int Age { get; set; }
+        public string Name { get; private set; }
+        public int Age { get; private set; }
         public enum Gender
         {
             Male,
             Female,
             Other
         }
-        public Gender gender;
+        public Gender gender { get; private set; }
 
         public Person(string Name, int Age, Gender gender)
         {

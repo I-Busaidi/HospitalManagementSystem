@@ -8,8 +8,8 @@ namespace HospitalManagementSystem
 {
     public abstract class Patient : Person
     {
-        public int PatientID;
-        public string Ailment;
+        public int PatientID { get; private set; }
+        public string Ailment { get; private set; }
 
         public Patient(int PatientID, string Name, int Age, Gender gender, string Ailment) : base(Name, Age, gender)
         {

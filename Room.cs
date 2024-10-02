@@ -8,15 +8,15 @@ namespace HospitalManagementSystem
 {
     public class Room
     {
-        public int RoomNumber;
+        public int RoomNumber { get; private set; }
         public enum RoomType
         {
             IPR,
             OPR
         }
-        public RoomType roomType;
+        public RoomType roomType { get; private set; }
 
-        public bool IsOccupied;
+        public bool IsOccupied { get; private set; }
 
         public Room(int RoomNumber, RoomType roomType)
         {

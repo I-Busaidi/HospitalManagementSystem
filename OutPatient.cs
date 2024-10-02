@@ -8,7 +8,7 @@ namespace HospitalManagementSystem
 {
     public class OutPatient : Patient
     {
-        public Clinic ClinicAssigned;
+        public Clinic ClinicAssigned { get; private set; }
         public OutPatient(string Name, int Age, Gender gender, int PatientID, string Ailment, Clinic AssignedClinic) 
             : base (PatientID, Name, Age, gender, Ailment)
         {

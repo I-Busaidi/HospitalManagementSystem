@@ -9,9 +9,9 @@ namespace HospitalManagementSystem
 {
     public class InPatient : Patient
     {
-        public Room? Room;
-        public Doctor AssignedDoctor;
-        public DateTime AdmissionDate;
+        public Room? Room { get; private set; }
+        public Doctor AssignedDoctor { get; private set; }
+        public DateTime AdmissionDate { get; private set; }
         public InPatient(string Name, int Age, Gender gender, int PatientID, string Ailment, Doctor doctor, DateTime admissionDate) 
             : base(PatientID, Name, Age, gender, Ailment)
         {

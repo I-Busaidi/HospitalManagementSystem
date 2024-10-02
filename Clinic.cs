@@ -10,13 +10,13 @@ namespace HospitalManagementSystem
 {
     public class Clinic
     {
-        public int ClinicID;
-        public string ClinicName;
+        public int ClinicID { get; private set; }
+        public string ClinicName { get; private set; }
         public enum Specialization
         {
             Cardiology, Neurology, Dermatology
         }
-        public Specialization specialization;
+        public Specialization specialization { get; private set; }
         public List<Room> rooms = new List<Room>();
         public Dictionary<Doctor, List<Appointment>> AvailableAppointments = new Dictionary<Doctor, List<Appointment>>();
 
@@ -45,7 +45,7 @@ namespace HospitalManagementSystem
                 Appointment appointment = new Appointment(appointmentDay, TimeSpan.FromHours(9+i));
                 AvailableAppointments[doctor].Add(appointment);
                 Console.WriteLine($"{TimeSpan.FromHours(9+i).ToString()}");
-                appointment.IsBooked = false;
+                appointment.AddAvailableFreeSlots();
             }
         }
 
