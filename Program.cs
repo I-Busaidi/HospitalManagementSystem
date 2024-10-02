@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.RegularExpressions;
 using static HospitalManagementSystem.Clinic;
 using static HospitalManagementSystem.Doctor;
 using static HospitalManagementSystem.Person;
@@ -9,6 +10,8 @@ namespace HospitalManagementSystem
     internal class Program
     {
         public static Hospital hospital = new Hospital();
+
+        static string NameRegexFormat = @"^[A-Za-z]+(?: [A-Za-z]+)*$";
 
         static void Main(string[] args)
         {
@@ -108,7 +111,91 @@ namespace HospitalManagementSystem
 
         public static void AddDoctor()
         {
+            int DId;
+            int DrCount = hospital.GetDoctors().Count;
+            if (DrCount == 0)
+            {
+                DId = 1;
+            }
+            else
+            {
+                DId = hospital.GetDoctors()[DrCount - 1].DoctorID + 1;
+            }
 
+            string DName;
+            Console.Clear();
+            Console.WriteLine("Enter the new doctor's name:\n");
+            while (string.IsNullOrEmpty(DName = Console.ReadLine()) || !Regex.IsMatch(NameRegexFormat, DName))
+            {
+                Console.Clear();
+                Console.WriteLine("Enter the new doctor's name:\n");
+                Console.WriteLine("\nInvalid input, please try again.\n");
+            }
+
+            int DAge;
+            Console.Clear();
+            Console.WriteLine("Enter the new doctor's name:\n");
+            while(!int.TryParse(Console.ReadLine(), out DAge) || DAge < 20)
+            {
+                Console.Clear();
+                Console.WriteLine("Enter the new doctor's name:\n");
+                if (DAge < 20)
+                {
+                    Console.WriteLine("\nAge cannot be lower than 20, please try again.\n");
+                }
+                else
+                {
+                    Console.WriteLine("\nInvalid input, please try again.");
+                }
+            }
+
+            int GenderChoice;
+            Console.Clear();
+            Console.WriteLine("Choose the appropriate gender:\n\n1. Male\n\n2. Female\n\n3. Other");
+            while(!int.TryParse(Console.ReadLine(), out GenderChoice) || GenderChoice > 3 || GenderChoice < 1)
+            {
+                Console.Clear();
+                Console.WriteLine("Choose the appropriate gender:\n\n1. Male\n\n2. Female\n\n3. Other\n");
+                Console.WriteLine("\nInvalid input, please try again.\n");
+            }
+            Gender DGender;
+            if (GenderChoice == 1)
+            {
+                DGender = Gender.Male;
+            }
+            else if(GenderChoice == 2)
+            {
+                DGender = Gender.Female;
+            }
+            else
+            {
+                DGender = Gender.Other;
+            }
+
+            int SpecChoice;
+            Console.Clear();
+            Console.WriteLine("Choose the appropriate Specialization:\n\n1. Cardiology\n\n2. Neurology\n\n3. Dermatology");
+            while (!int.TryParse(Console.ReadLine(), out SpecChoice) || SpecChoice > 3 || SpecChoice < 1)
+            {
+                Console.Clear();
+                Console.WriteLine("Choose the appropriate Specialization:\n\n1. Cardiology\n\n2. Neurology\n\n3. Dermatology");
+                Console.WriteLine("\nInvalid input, please try again.\n");
+            }
+
+            DocSpecialization DSpec;
+            if (SpecChoice == 1)
+            {
+                DSpec = DocSpecialization.Cardiology;
+            }
+            else if (SpecChoice == 2)
+            {
+                DSpec = DocSpecialization.Neurology;
+            }
+            else
+            {
+                DSpec = DocSpecialization.Dermatology;
+            }
+            hospital.AddDoctor(new Doctor(DId, DName, DAge, DGender, DSpec));
         }
     }
 }
