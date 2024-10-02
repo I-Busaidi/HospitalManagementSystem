@@ -36,7 +36,7 @@ namespace HospitalManagementSystem
             {
                 clinic.AvailableAppointments.Add(this, new List<Appointment>());
             }
-
+            Console.WriteLine($"Doctor {Name} is assigned to the {clinic.ClinicName} for {day.ToString("ddd ~ dd MMM, yyyy")} from {9} to {9+period.Hours}\nAvailable time slots: ");
             clinic.AddAvailableAppointment(this, day, period);
         }
 

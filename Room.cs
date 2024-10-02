@@ -28,11 +28,13 @@ namespace HospitalManagementSystem
         public void OccupyRoom()
         {
             IsOccupied = true;
+            Console.WriteLine($"Room {RoomNumber} is now occupied.");
         }
 
         public void VacateRoom()
         {
             IsOccupied = false;
+            Console.WriteLine($"Room {RoomNumber} is now vacated.");
         }
 
         public bool GetOccupiedStatus()

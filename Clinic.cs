@@ -30,7 +30,7 @@ namespace HospitalManagementSystem
         public void AddRoom(Room room)
         {
             rooms.Add(room);
-            Console.WriteLine($"Room {room.RoomNumber} added to {ClinicName}");
+            Console.WriteLine($"Room {room.RoomNumber} ({room.roomType}) added to {ClinicName}");
         }
 
         public void AddAvailableAppointment(Doctor doctor, DateTime appointmentDay, TimeSpan period)
@@ -44,6 +44,7 @@ namespace HospitalManagementSystem
             {
                 Appointment appointment = new Appointment(appointmentDay, TimeSpan.FromHours(9+i));
                 AvailableAppointments[doctor].Add(appointment);
+                Console.WriteLine($"{TimeSpan.FromHours(9+i).ToString()}");
                 appointment.IsBooked = false;
             }
         }
@@ -57,12 +58,13 @@ namespace HospitalManagementSystem
                     if (appointment.AppointmentDate == appointmentDay && appointment.AppointmentTime == appointmentTime && !appointment.IsBooked)
                     {
                         appointment.ScheduleAppointment(patient, appointmentDay, appointmentTime);
+                        Console.WriteLine($"Patient {patient.Name} has been assigned to {ClinicName}");
                         Console.WriteLine($"Appointment booked for {patient.Name} at {appointmentTime} with {doctor.Name}");
                         return;
                     }
                 }
             }
-            Console.WriteLine("Sorry, no available appointments for this time.");
+            Console.WriteLine($"Sorry, no available appointments on {appointmentDay.ToString("ddd ~ dd MMM, yyyy")} at {appointmentTime}.");
         }
 
         public void BookAppointment(Patient patient, DateTime appointmentDay, TimeSpan appointmentTime)
@@ -74,12 +76,13 @@ namespace HospitalManagementSystem
                     if (Kvp.Value[i].AppointmentDate == appointmentDay && Kvp.Value[i].AppointmentTime == appointmentTime && !Kvp.Value[i].IsBooked)
                     {
                         Kvp.Value[i].ScheduleAppointment(patient, appointmentDay, appointmentTime);
-                        Console.WriteLine($"Appointment booked for {patient.Name} at {appointmentTime}");
+                        Console.WriteLine($"Patient {patient.Name} has been assigned to {ClinicName}");
+                        Console.WriteLine($"Appointment booked for {patient.Name} with {Kvp.Key.Name} at {appointmentTime}");
                         return;
                     }
                 }
             }
-            Console.WriteLine("Sorry, no available appointments for this time.");
+            Console.WriteLine($"Sorry, no available appointments on {appointmentDay.ToString("ddd ~ dd MMM, yyyy")} at {appointmentTime}.");
         }
 
         public void CancelAppointment(Patient patient, DateTime appointmentDay, TimeSpan appointmentTime)
@@ -102,6 +105,8 @@ namespace HospitalManagementSystem
         {
             StringBuilder sb = new StringBuilder();
             string border = new string('-', 65);
+            sb.AppendLine($"Available appointments in {ClinicName}:");
+            sb.AppendLine();
             sb.AppendLine($"{"Doctor", -20} | {"Day", -30} | {"Period", -30}");
             sb.AppendLine(border);
             bool FirstLine = true;

@@ -23,6 +23,7 @@ namespace HospitalManagementSystem
         public void AssignRoom(Room room)
         {
             Room = room;
+            Console.WriteLine($"Room {room.RoomNumber} has been assigned to patient {Name} on {AdmissionDate.ToString("ddd ~ dd MMM, yyyy")}");
             Room.OccupyRoom();
         }
 
@@ -31,7 +32,12 @@ namespace HospitalManagementSystem
             if (Room != null)
             {
                 Room.VacateRoom();
+                Console.WriteLine($"Patient {Name} admitted on {AdmissionDate.ToString("ddd ~ dd MMM, yyyy")} has been discharged on {DateTime.Now.ToString("ddd ~ dd MMM, yyyy")}");
                 Room = null;
+            }
+            else
+            {
+                Console.WriteLine("Room is already vacated.");
             }
         }
 

@@ -23,16 +23,20 @@ namespace HospitalManagementSystem
 
 
             // Assign doctors to clinics and generate appointment slots (9 AM - 12 PM)
+            Console.WriteLine("Doctor Assignments:\n");
             doctor1.AssignToClinic(cardiologyClinic, new DateTime(2024, 10, 5), TimeSpan.FromHours(3)); // Expected: Appointments generated for 9 AM, 10 AM, 11 AM
+            Console.WriteLine("\n");                                                                    
             doctor2.AssignToClinic(neurologyClinic, new DateTime(2024, 10, 6), TimeSpan.FromHours(3));  // Expected: Appointments generated for 9 AM, 10 AM, 11 AM
 
-
+            Console.WriteLine("\n---------------------------------------------------------------------------------------------");
             // Create rooms for clinics
             Room room1 = new Room(101, RoomType.IPR);  // Room for in-patients
             Room room2 = new Room(102, RoomType.OPR);  // Room for out-patients
+
+            Console.WriteLine("Room Assignments:\n");
             cardiologyClinic.AddRoom(room1); // Expected: Room 101 added to Cardiology Clinic
             neurologyClinic.AddRoom(room2);  // Expected: Room 102 added to Neurology Clinic
-
+            Console.WriteLine("\n---------------------------------------------------------------------------------------------");
 
             // Create patients
             InPatient inpatient1 = new InPatient("Jane Doe", 30, Gender.Female, 101, "Cardiac Arrest", doctor1, DateTime.Now);
@@ -40,285 +44,63 @@ namespace HospitalManagementSystem
 
 
             // Assign room to in-patient
+            Console.WriteLine("In-Patient room assignment:\n");
             inpatient1.AssignRoom(room1); // Expected: Room 101 becomes occupied
-
+            Console.WriteLine("\n---------------------------------------------------------------------------------------------");
 
             // Book an appointment for out-patient in Cardiology Clinic
+            Console.WriteLine("Out-Patient clinic assignment and booking appointment:\n");
             outpatient1.BookAppointment(cardiologyClinic, new DateTime(2024, 10, 5), TimeSpan.FromHours(10)); // Expected: Appointment at 10 AM booked
-
+            Console.WriteLine("\n-------------------------------");
 
             // View doctor's assigned clinics
+            Console.WriteLine("Displaying clinics that doctors are assigned to:\n");
             doctor1.DisplayAssignedClinics(); // Expected: Cardiology Clinic is displayed
+            Console.WriteLine("\n");
+            doctor2.DisplayAssignedClinics();
+            Console.WriteLine("\n---------------------------------------------------------------------------------------------");
 
-
+            Console.WriteLine("Displaying available appointments in clinics:\n");
             // View available appointments in Cardiology Clinic
             cardiologyClinic.DisplayAvailableAppointments();
+            Console.WriteLine("\n");
+            neurologyClinic.DisplayAvailableAppointments();
             // Expected: Show available slots for Dr. John Smith at 9 AM, 11 AM (10 AM is booked)
+            Console.WriteLine("\n");
 
 
             // Discharge in-patient
+            Console.WriteLine("Discharging a patient:\n");
             inpatient1.Discharge(); // Expected: Room 101 becomes available, patient discharged
-
+            Console.WriteLine("\n---------------------------------------------------------------------------------------------");
 
             // Book another appointment for the same out-patient in Cardiology Clinic
+            Console.WriteLine("Booking another appointment for the same out-patient:\n");
             outpatient1.BookAppointment(cardiologyClinic, new DateTime(2024, 10, 5), TimeSpan.FromHours(11)); // Expected: Appointment at 11 AM booked
-
+            Console.WriteLine("\n");
+            cardiologyClinic.DisplayAvailableAppointments();
+            Console.WriteLine("\n");
+            neurologyClinic.DisplayAvailableAppointments();
+            Console.WriteLine("\n---------------------------------------------------------------------------------------------");
 
             // Try booking a time outside available slots
+            Console.WriteLine("Trying to book an appointment outside available slots:\n");
             outpatient1.BookAppointment(cardiologyClinic, new DateTime(2024, 10, 5), TimeSpan.FromHours(12));
             // Expected: No available appointments for this time
-
+            Console.WriteLine("\n---------------------------------------------------------------------------------------------");
 
             // Cancel an appointment
+            Console.WriteLine("Cancelling an appointment:\n");
             cardiologyClinic.CancelAppointment(outpatient1, new DateTime(2024, 10, 5), TimeSpan.FromHours(10));
             // Expected: Appointment cancellation message for 10 AM
-
+            Console.WriteLine("\n---------------------------------------------------------------------------------------------");
 
             // View available appointments after booking and cancellation
+            Console.WriteLine("Displaying available appointments in clinics:\n");
             cardiologyClinic.DisplayAvailableAppointments();
+            Console.WriteLine("\n");
+            neurologyClinic.DisplayAvailableAppointments();
             // Expected: 10 AM slot available again, 9 AM and 11 AM booked
         }
-
-
-
-        //USER INPUT SECTION
-
-        //static void AddNewDoctor()
-        //{
-        //    int DocID;
-        //    var DocList = hospital.GetDoctors();
-
-        //    if (DocList.Count > 0)
-        //    {
-        //        DocID = DocList[DocList.Count - 1].GetID() + 1;
-        //    }
-        //    else
-        //    {
-        //        DocID = 1;
-        //    }
-
-        //    string DocName;
-        //    Console.WriteLine("Enter the doctor's name: \n");
-        //    while (string.IsNullOrEmpty(DocName = Console.ReadLine()) || int.TryParse(DocName, out _))
-        //    {
-        //        Console.Clear();
-        //        Console.WriteLine("Enter the doctor's name: \n");
-        //        Console.WriteLine("Invalid input, please try again:\n");
-        //    }
-
-        //    int DocAge;
-        //    Console.Clear();
-        //    Console.WriteLine($"Enter the age of Dr. {DocName}:\n");
-        //    while (!int.TryParse(Console.ReadLine(), out DocAge) || DocAge < 20)
-        //    {
-        //        Console.Clear();
-        //        Console.WriteLine($"Enter the age of Dr. {DocName}:\n");
-        //        Console.WriteLine("Invalid input, please try again.\n");
-        //    }
-
-        //    int DocGender;
-        //    Console.Clear();
-        //    Console.WriteLine($"Choose gender for Dr. {DocName}: \n1. Male\n2. Female\n3. Other\n");
-        //    while (!int.TryParse(Console.ReadLine(), out DocGender) || DocGender < 1 || DocGender > 3)
-        //    {
-        //        Console.Clear();
-        //        Console.WriteLine($"Choose gender for Dr. {DocName}: \n1. Male\n2. Female\n3. Other\n");
-        //        Console.WriteLine("Invalid input, please try again.\n");
-        //    }
-        //    Gender gender = Gender.Male;
-        //    switch (DocGender)
-        //    {
-        //        case 1:
-        //            gender = Gender.Male;
-        //            break;
-
-        //        case 2:
-        //            gender = Gender.Female;
-        //            break;
-
-        //        case 3:
-        //            gender = Gender.Other;
-        //            break;
-        //    }
-
-        //    Console.Clear();
-        //    Console.WriteLine($"Enter the specialization of Dr. {DocName}:\n");
-        //    string Spec;
-        //    while (string.IsNullOrEmpty(Spec = Console.ReadLine()) || int.TryParse(Spec, out _))
-        //    {
-        //        Console.Clear();
-        //        Console.WriteLine($"Enter the specialization of Dr. {DocName}:\n");
-        //        Console.WriteLine("Invalid input, please try again.\n");
-        //    }
-
-        //    hospital.AddDoctor(new Doctor(DocID, DocName, DocAge, gender, Spec));
-        //    Console.Clear();
-        //    Console.WriteLine($"Dr. {DocName} has been added successfully.");
-        //}
-
-        //static void AddNewPatient()
-        //{
-        //    int PatID;
-        //    var PatList = hospital.GetPatients();
-
-        //    if (PatList.Count > 0)
-        //    {
-        //        PatID = PatList[PatList.Count - 1].GetID() + 1;
-        //    }
-        //    else
-        //    {
-        //        PatID = 1;
-        //    }
-
-        //    string PatName;
-        //    Console.WriteLine("Enter the patient's name: \n");
-        //    while (string.IsNullOrEmpty(PatName = Console.ReadLine()) || int.TryParse(PatName, out _))
-        //    {
-        //        Console.Clear();
-        //        Console.WriteLine("Enter the patient's name: \n");
-        //        Console.WriteLine("Invalid input, please try again:\n");
-        //    }
-
-        //    int PatAge;
-        //    Console.Clear();
-        //    Console.WriteLine($"Enter the age of {PatName}:\n");
-        //    while (!int.TryParse(Console.ReadLine(), out PatAge) || PatAge < 0)
-        //    {
-        //        Console.Clear();
-        //        Console.WriteLine($"Enter the age of {PatName}:\n");
-        //        Console.WriteLine("Invalid input, please try again.\n");
-        //    }
-
-        //    int PatGender;
-        //    Console.Clear();
-        //    Console.WriteLine($"Choose gender for {PatName}: \n1. Male\n2. Female\n3. Other\n");
-        //    while (!int.TryParse(Console.ReadLine(), out PatGender) || PatGender < 1 || PatGender > 3)
-        //    {
-        //        Console.Clear();
-        //        Console.WriteLine($"Choose gender for {PatName}: \n1. Male\n2. Female\n3. Other\n");
-        //        Console.WriteLine("Invalid input, please try again.\n");
-        //    }
-        //    Gender gender = Gender.Male;
-        //    switch (PatGender)
-        //    {
-        //        case 1:
-        //            gender = Gender.Male;
-        //            break;
-
-        //        case 2:
-        //            gender = Gender.Female;
-        //            break;
-
-        //        case 3:
-        //            gender = Gender.Other;
-        //            break;
-        //    }
-
-        //    Console.Clear();
-        //    Console.WriteLine($"Enter the ailment of {PatName}:\n");
-        //    string Ailment;
-        //    while (string.IsNullOrEmpty(Ailment = Console.ReadLine()) || int.TryParse(Ailment, out _))
-        //    {
-        //        Console.Clear();
-        //        Console.WriteLine($"Enter the ailment of {PatName}:\n");
-        //        Console.WriteLine("Invalid input, please try again.\n");
-        //    }
-
-        //    Console.Clear();
-        //    var DocList = hospital.GetDoctors();
-        //    int DocIndex = -1;
-        //    StringBuilder sb = new StringBuilder();
-        //    for (int i = 0; i < DocList.Count; i++)
-        //    {
-        //        sb.AppendLine($"{(i + 1)}. Dr. {DocList[i].Name}, Specialization: {DocList[i].GetSpec()}");
-        //        sb.AppendLine();
-        //    }
-        //    Console.WriteLine(sb.ToString());
-        //    Console.WriteLine("\nChoose a doctor to assign to patient:\n");
-
-        //    while (!int.TryParse(Console.ReadLine(), out DocIndex) || DocIndex < 1 || DocIndex > DocList.Count)
-        //    {
-        //        Console.Clear();
-        //        Console.WriteLine(sb.ToString());
-        //        Console.WriteLine("\nChoose a doctor to assign to patient:\n");
-        //        Console.WriteLine("Invalid input, please try again:\n");
-        //    }
-
-        //    hospital.AddPatient(new Patient(PatID, PatName, PatAge, gender, Ailment, DocList[DocIndex - 1]));
-        //    Console.Clear();
-        //    Console.WriteLine($"Patient {PatName} has been added successfully.");
-        //}
-
-        //static void ShowDocInfo()
-        //{
-        //    var DocList = hospital.GetDoctors();
-        //    int DocIndex = -1;
-        //    StringBuilder sb = new StringBuilder();
-        //    for (int i = 0; i < DocList.Count; i++)
-        //    {
-        //        sb.AppendLine($"{(i + 1)}. Dr. {DocList[i].Name}");
-        //    }
-        //    Console.WriteLine(sb.ToString());
-        //    Console.WriteLine("\nChoose a doctor to view details:\n");
-
-        //    while (!int.TryParse(Console.ReadLine(), out DocIndex) || DocIndex < 1 || DocIndex > DocList.Count)
-        //    {
-        //        Console.Clear();
-        //        Console.WriteLine(sb.ToString());
-        //        Console.WriteLine("\nChoose a doctor to view details:\n");
-        //        Console.WriteLine("Invalid input, please try again:\n");
-        //    }
-
-        //    DocList[DocIndex - 1].DisplayInfo();
-        //    hospital.GetDoctorPatients(DocList[DocIndex - 1]);
-        //}
-
-        //static void ShowPatientInfo()
-        //{
-        //    var PatList = hospital.GetDoctors();
-        //    int PatIndex = -1;
-        //    StringBuilder sb = new StringBuilder();
-        //    for (int i = 0; i < PatList.Count; i++)
-        //    {
-        //        sb.AppendLine($"{(i + 1)}. Name: {PatList[i].Name}");
-        //    }
-        //    Console.WriteLine(sb.ToString());
-        //    Console.WriteLine("\nChoose a patient to view details:\n");
-
-        //    while (!int.TryParse(Console.ReadLine(), out PatIndex) || PatIndex < 1 || PatIndex > PatList.Count)
-        //    {
-        //        Console.Clear();
-        //        Console.WriteLine(sb.ToString());
-        //        Console.WriteLine("\nChoose a patient to view details:\n");
-        //        Console.WriteLine("Invalid input, please try again:\n");
-        //    }
-
-        //    Console.Clear();
-        //    PatList[PatIndex - 1].DisplayInfo();
-        //}
-
-        //static void CreateAppointment()
-        //{
-
-        //}
-
-        //static (bool, string?) VerifyDocName(List<Doctor> Doctors, string Name)
-        //{
-        //    bool NameExist = false;
-        //    string? Message = null;
-
-        //    for (int i = 0;i < Doctors.Count; i++)
-        //    {
-        //        if (Doctors[i].Name == Name)
-        //        {
-        //            NameExist = true;
-        //            Message = "\nThis name already exists, please try again.\n";
-        //            break;
-        //        }
-        //    }
-
-        //    return (NameExist, Message);
-        //}
-
     }
 }
