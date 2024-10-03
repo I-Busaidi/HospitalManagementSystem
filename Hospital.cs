@@ -48,6 +48,7 @@ namespace HospitalManagementSystem
             }
             else
             {
+                patientsList.Add((patient, IsInPatient));
                 if(IsInPatient)
                 {
                     InPatient inPatient = new InPatient(patient.Name, patient.Age, patient.gender, patient.PatientID, patient.Ailment, doctor, DateTime.Parse(admissionDate));
@@ -125,6 +126,11 @@ namespace HospitalManagementSystem
         public List<Room> GetRooms()
         {
             return roomsList;
+        }
+
+        public List<Clinic> GetClinics()
+        {
+            return clinicsList;
         }
 
         public void DisplayRoomStatuses()

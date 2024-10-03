@@ -108,6 +108,7 @@ namespace HospitalManagementSystem
 
 
         // ------------------------------------- User - Input Section -------------------------------------|
+        // ----------------------------------------- NOT READY YET ----------------------------------------|
 
         public static void AddDoctor()
         {
@@ -134,11 +135,11 @@ namespace HospitalManagementSystem
 
             int DAge;
             Console.Clear();
-            Console.WriteLine("Enter the new doctor's name:\n");
+            Console.WriteLine("Enter the new doctor's age:\n");
             while(!int.TryParse(Console.ReadLine(), out DAge) || DAge < 20)
             {
                 Console.Clear();
-                Console.WriteLine("Enter the new doctor's name:\n");
+                Console.WriteLine("Enter the new doctor's age:\n");
                 if (DAge < 20)
                 {
                     Console.WriteLine("\nAge cannot be lower than 20, please try again.\n");
@@ -200,7 +201,141 @@ namespace HospitalManagementSystem
 
         public static void AddPatient()
         {
+            int PId;
+            int PCount = hospital.GetPatients().Count;
+            if (PCount == 0)
+            {
+                PId = 1;
+            }
+            else
+            {
+                PId = hospital.GetPatients()[PCount - 1].Item1.PatientID + 1;
+            }
 
+            string PName;
+            Console.Clear();
+            Console.WriteLine("Enter the new patient's name:\n");
+            while (string.IsNullOrEmpty(PName = Console.ReadLine()) || !Regex.IsMatch(NameRegexFormat, PName))
+            {
+                Console.Clear();
+                Console.WriteLine("Enter the new patient's name:\n");
+                Console.WriteLine("\nInvalid input, please try again.\n");
+            }
+
+            int PAge;
+            Console.Clear();
+            Console.WriteLine("Enter the new patient's age:\n");
+            while (!int.TryParse(Console.ReadLine(), out PAge) || PAge < 1)
+            {
+                Console.Clear();
+                Console.WriteLine("Enter the new patient's age:\n");
+                if (PAge < 1)
+                {
+                    Console.WriteLine("\nAge cannot be lower than 1, please try again.\n");
+                }
+                else
+                {
+                    Console.WriteLine("\nInvalid input, please try again.");
+                }
+            }
+
+            int GenderChoice;
+            Console.Clear();
+            Console.WriteLine("Choose the appropriate gender:\n\n1. Male\n\n2. Female\n\n3. Other");
+            while (!int.TryParse(Console.ReadLine(), out GenderChoice) || GenderChoice > 3 || GenderChoice < 1)
+            {
+                Console.Clear();
+                Console.WriteLine("Choose the appropriate gender:\n\n1. Male\n\n2. Female\n\n3. Other\n");
+                Console.WriteLine("\nInvalid input, please try again.\n");
+            }
+            Gender PGender;
+            if (GenderChoice == 1)
+            {
+                PGender = Gender.Male;
+            }
+            else if (GenderChoice == 2)
+            {
+                PGender = Gender.Female;
+            }
+            else
+            {
+                PGender = Gender.Other;
+            }
+
+            string Illness;
+            Console.Clear();
+            Console.WriteLine("Enter the ailment of the patient:\n");
+            while (string.IsNullOrEmpty(Illness = Console.ReadLine()) || int.TryParse(Illness, out _))
+            {
+                Console.Clear();
+                Console.WriteLine("Enter the ailment of the patient:\n");
+                Console.WriteLine("\nInvalid input, please try again.\n");
+            }
+
+            int PatientTypeChoice;
+            Console.Clear();
+            Console.WriteLine("Register as In-Patient(1) OR Out-Patient(2):\n");
+            while (!int.TryParse(Console.ReadLine(), out PatientTypeChoice) || PatientTypeChoice > 2 || PatientTypeChoice < 1)
+            {
+                Console.Clear();
+                Console.WriteLine("Register as In-Patient(1) OR Out-Patient(2):\n");
+                Console.WriteLine("\nInvalid input, please try again.\n");
+            }
+            Console.Clear();
+            if (PatientTypeChoice == 1)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Clear();
+                string border = new string('-', 50);
+                sb.AppendLine($"{"Doctor Name", -20} | {"Specialization", -20}");
+                sb.AppendLine(border);
+                var DocList = hospital.GetDoctors();
+                for (int i = 0; i < DocList.Count; i++)
+                {
+                    sb.AppendLine($"{DocList[i].Name,-20} | {DocList[i].specialization.ToString(),-20}");
+                }
+                Console.WriteLine(sb.ToString());
+                Console.WriteLine("\nChoose a doctor from the list:\n");
+
+                int AssignDocChoice;
+                while (!int.TryParse(Console.ReadLine(), out AssignDocChoice) || AssignDocChoice > DocList.Count || AssignDocChoice < 1)
+                {
+                    Console.Clear();
+                    Console.WriteLine(sb.ToString());
+                    Console.WriteLine("\nChoose a doctor from the list:\n");
+                    Console.WriteLine("\nInvalid input, please try again.\n");
+                }
+                Patient patient = new Patient(PId, PName, PAge, PGender, Illness);
+                hospital.AddPatient(patient, true, DocList[AssignDocChoice - 1], DateTime.Now.ToString(), null);
+            }
+            else
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Clear();
+                string border = new string('-', 50);
+                sb.AppendLine($"{"Clinic Name",-20} | {"Specialization",-20}");
+                sb.AppendLine(border);
+                var ClinicList = hospital.GetClinics();
+                for (int i = 0; i < ClinicList.Count; i++)
+                {
+                    sb.AppendLine($"{ClinicList[i].ClinicName,-20} | {ClinicList[i].specialization.ToString(),-20}");
+                }
+                Console.WriteLine(sb.ToString());
+                Console.WriteLine("\nChoose a clinic from the list:\n");
+
+                int AssignClinicChoice;
+                while (!int.TryParse(Console.ReadLine(), out AssignClinicChoice) || AssignClinicChoice > ClinicList.Count || AssignClinicChoice < 1)
+                {
+                    Console.Clear();
+                    Console.WriteLine(sb.ToString());
+                    Console.WriteLine("\nChoose a clinic from the list:\n");
+                    Console.WriteLine("\nInvalid input, please try again.\n");
+                }
+                Patient patient = new Patient(PId, PName, PAge, PGender, Illness);
+                hospital.AddPatient(patient, false, null, null, ClinicList[AssignClinicChoice-1]);
+            }
         }
+
+
     }
 }

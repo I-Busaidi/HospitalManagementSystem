@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HospitalManagementSystem
 {
-    public abstract class Patient : Person
+    public class Patient : Person
     {
         public int PatientID { get; private set; }
         public string Ailment { get; private set; }
@@ -17,6 +17,9 @@ namespace HospitalManagementSystem
             this.Ailment = Ailment;
         }
 
-        public override abstract void DisplayInfo();
+        public override void DisplayInfo()
+        {
+
+        }
     }
 }
