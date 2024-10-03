@@ -9,15 +9,22 @@ namespace HospitalManagementSystem
 {
     public class Hospital
     {
-        private List<Doctor> doctorsList;
-        private List<Patient> patientsList;
-        private List<Room> roomsList;
+        private static List<Doctor>? doctorsList;
+        private static List<(Patient Patient, bool IsInPatient)>? patientsList;
+        private static List<Room>? roomsList;
+        private static List<Clinic>? clinicsList;
+        private static List<InPatient>? inPatients;
+        private static List<OutPatient>? outPatients;
 
-        public Hospital()
+
+        static Hospital()
         {
             doctorsList = new List<Doctor>();
-            patientsList = new List<Patient>();
+            patientsList = new List<(Patient Patient, bool IsInPatient)>();
             roomsList = new List<Room>();
+            clinicsList = new List<Clinic>();
+            inPatients = new List<InPatient>();
+            outPatients = new List<OutPatient>();
         }
 
         public void AddDoctor(Doctor doctor)
@@ -33,16 +40,26 @@ namespace HospitalManagementSystem
             }
         }
 
-        public void AddPatient(Patient patient)
+        public void AddPatient(Patient patient, bool IsInPatient, Doctor? doctor = null, string? admissionDate = null, Clinic? clinic = null)
         {
-            if (!patientsList.Contains(patient))
+            if (patientsList.Contains((patient, true)) || patientsList.Contains((patient, false)))
             {
-                patientsList.Add(patient);
-                Console.WriteLine($"Patient {patient.Name} added to the hospital.");
+                Console.WriteLine($"Patient {patient.Name} is already added to the hospital.");
             }
             else
             {
-                Console.WriteLine($"Patient {patient.Name} is already in the hospital.");
+                if(IsInPatient)
+                {
+                    InPatient inPatient = new InPatient(patient.Name, patient.Age, patient.gender, patient.PatientID, patient.Ailment, doctor, DateTime.Parse(admissionDate));
+                    inPatients.Add(inPatient);
+                    Console.WriteLine($"Patient {inPatient.Name} has been added as an in-patient.");
+                }
+                else
+                {
+                    OutPatient outPatient = new OutPatient(patient.Name, patient.Age, patient.gender, patient.PatientID, patient.Ailment, clinic);
+                    outPatients.Add(outPatient);
+                    Console.WriteLine($"Patient {outPatient.Name} has been added as an out-patient.");
+                }
             }
         }
 
@@ -59,6 +76,12 @@ namespace HospitalManagementSystem
             }
         }
 
+        public void AddClinic(Clinic clinic)
+        {
+            clinicsList.Add(clinic);
+            Console.WriteLine($"Clinic \"{clinic.ClinicName}\" has been added to the hospital.");
+        }
+
         public void AssignRoomToPatient(InPatient patient, Room room)
         {
             if (room.IsOccupied)
@@ -72,6 +95,7 @@ namespace HospitalManagementSystem
                 Console.WriteLine($"Room {room.RoomNumber} assigned to patient {patient.Name}.");
             }
         }
+
         public void GetDoctorPatients(Doctor doctor)
         {
             if (doctor.PatientsList.Count == 0)
@@ -93,7 +117,7 @@ namespace HospitalManagementSystem
             return doctorsList;
         }
 
-        public List<Patient> GetPatients()
+        public List<(Patient, bool)> GetPatients()
         {
             return patientsList;
         }

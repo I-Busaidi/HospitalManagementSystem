@@ -197,5 +197,10 @@ namespace HospitalManagementSystem
             }
             hospital.AddDoctor(new Doctor(DId, DName, DAge, DGender, DSpec));
         }
+
+        public static void AddPatient()
+        {
+
+        }
     }
 }
