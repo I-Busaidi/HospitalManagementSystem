@@ -385,5 +385,68 @@ namespace HospitalManagementSystem
 
             hospital.AddClinic(new Clinic(CID, CName, ClinicSpec));
         }
+
+        public static void AddRoom()
+        {
+            int RoomNumber;
+            Console.Clear();
+            Console.WriteLine("Enter the new room number:\n");
+            while (!int.TryParse(Console.ReadLine(), out RoomNumber) || RoomNumber < 1 || VerifyRoom(RoomNumber))
+            {
+                Console.Clear();
+                Console.WriteLine("Enter the new room number:\n");
+                if (RoomNumber < 1)
+                {
+                    Console.WriteLine("\nRoom number must be greater than 0:\n");
+                }
+                else if (VerifyRoom(RoomNumber))
+                {
+                    Console.WriteLine("\nRoom number is already used, please try again:\n");
+                }
+                else
+                {
+                    Console.WriteLine("\nInvalid input, please try again:\n");
+                }
+            }
+
+            int roomTypeChoice;
+            Console.Clear();
+            Console.WriteLine("Choose a room type for the new room:\n\n1. In-Patient Room.\n2. Out-Patient Room\n");
+            while (!int.TryParse(Console.ReadLine(),out roomTypeChoice) || roomTypeChoice > 3 || roomTypeChoice < 1)
+            {
+                Console.Clear();
+                Console.WriteLine("Choose a room type for the new room:\n\n1. In-Patient Room.\n2. Out-Patient Room\n");
+                Console.WriteLine("\nInvalid choice, please try again:\n");
+            }
+
+            RoomType roomType;
+            if (roomTypeChoice == 1)
+            {
+                roomType = RoomType.IPR;
+            }
+            else
+            {
+                roomType = RoomType.OPR;
+            }
+
+            hospital.AddRoom(new Room(RoomNumber, roomType));
+        }
+
+        public static bool VerifyRoom(int roomNumber)
+        {
+            bool RoomExists = false;
+            var RoomList = hospital.GetRooms();
+
+            for (int i = 0; i < RoomList.Count; i++)
+            {
+                if (RoomList[i].RoomNumber == roomNumber)
+                {
+                    RoomExists = true;
+                    break;
+                }
+            }
+
+            return RoomExists;
+        }
     }
 }
