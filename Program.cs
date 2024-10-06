@@ -336,6 +336,54 @@ namespace HospitalManagementSystem
             }
         }
 
+        public static void AddClinic()
+        {
+            int CID;
+            var ClinicList = hospital.GetClinics();
+            if (ClinicList.Count == 0)
+            {
+                CID = 1;
+            }
+            else
+            {
+                CID = ClinicList[ClinicList.Count - 1].ClinicID +1;
+            }
 
+            string CName;
+            Console.Clear();
+            Console.WriteLine("Enter the clinic name:\n");
+            while (string.IsNullOrEmpty(CName = Console.ReadLine()) || int.TryParse(CName, out _))
+            {
+                Console.Clear();
+                Console.WriteLine("Enter the clinic name:\n");
+                Console.WriteLine("\nInvalid input, please try again:\n");
+            }
+
+            Specialization ClinicSpec;
+            int SpecChoice;
+            Console.Clear();
+            Console.WriteLine("Choose a specialization for the clinic:\n1. Cardiology.\n2. Neurology.\n3. Dermatology.\n");
+            while (!int.TryParse(Console.ReadLine(), out SpecChoice) || SpecChoice > 3 || SpecChoice < 1)
+            {
+                Console.Clear();
+                Console.WriteLine("Choose a specialization for the clinic:\n1. Cardiology.\n2. Neurology.\n3. Dermatology.\n");
+                Console.WriteLine("\nInvalid input, please try again:\n");
+            }
+
+            if (SpecChoice == 1)
+            {
+                ClinicSpec = Specialization.Cardiology;
+            }
+            else if (SpecChoice == 2)
+            {
+                ClinicSpec = Specialization.Neurology;
+            }
+            else
+            {
+                ClinicSpec = Specialization.Dermatology;
+            }
+
+            hospital.AddClinic(new Clinic(CID, CName, ClinicSpec));
+        }
     }
 }
