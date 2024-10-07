@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HospitalManagementSystem
 {
-    public class Doctor : Person
+    public class Doctor : Person, IPatientCare
     {
         public int DoctorID { get; private set; }
         public enum DocSpecialization
@@ -18,6 +18,7 @@ namespace HospitalManagementSystem
 
         public List<Clinic> AssignedClinics = new List<Clinic>();
         public List<Patient> PatientsList = new List<Patient>();
+        public Nurse AssistingNurse { get; private set; }
 
         public Doctor(int DoctorID, string Name, int Age, Gender gender, DocSpecialization specialization) : base(Name, Age, gender)
         {
@@ -67,6 +68,47 @@ namespace HospitalManagementSystem
         public void RemovePatient(Patient patient)
         {
             PatientsList?.Remove(patient);
+        }
+
+        public void SetAssistingNurse(Nurse nurse)
+        {
+            AssistingNurse = nurse;
+        }
+
+        public void CheckVitals(Patient patient)
+        {
+            string RecordedBP;
+            float RecordedHR;
+            float RecordedTemp;
+
+            Console.Clear();
+            Console.WriteLine($"Enter the blood pressure for patient {patient.Name}\n");
+            while (string.IsNullOrEmpty(RecordedBP = Console.ReadLine()))
+            {
+                Console.Clear();
+                Console.WriteLine($"Enter the blood pressure for patient {patient.Name}\n");
+                Console.WriteLine("\nInvalid input, please try again:\n");
+            }
+
+            Console.Clear();
+            Console.WriteLine($"Enter the heartrate for patient {patient.Name}\n");
+            while (!float.TryParse(Console.ReadLine(), out RecordedHR) || RecordedHR < 0)
+            {
+                Console.Clear();
+                Console.WriteLine($"Enter the heartrate for patient {patient.Name}\n");
+                Console.WriteLine("\nInvalid input, please try again:\n");
+            }
+
+            Console.Clear();
+            Console.WriteLine($"Enter the temperature for patient {patient.Name}\n");
+            while (!float.TryParse(Console.ReadLine(), out RecordedTemp) || RecordedTemp < 0)
+            {
+                Console.Clear();
+                Console.WriteLine($"Enter the temperature for patient {patient.Name}\n");
+                Console.WriteLine("\nInvalid input, please try again:\n");
+            }
+
+            patient.RecordVitalsCheck(RecordedBP, RecordedHR, RecordedTemp);
         }
 
         public override void DisplayInfo()

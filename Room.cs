@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HospitalManagementSystem
 {
-    public class Room
+    public class Room : IDisplayInfo, IRoomManagement
     {
         public int RoomNumber { get; private set; }
         public enum RoomType
@@ -37,15 +37,16 @@ namespace HospitalManagementSystem
             Console.WriteLine($"Room {RoomNumber} is now vacated.");
         }
 
-        public bool GetOccupiedStatus()
-        {
-            return IsOccupied;
-        }
-
-        public string DisplayRoomInfo()
+        public void GetOccupiedStatus()
         {
             string RoomStatus = IsOccupied ? "Busy" : "Available";
-            return $"Room Number: {RoomNumber} | Room Type: {roomType} | Room Status: {RoomStatus}";
+            Console.WriteLine($"Room Number {RoomNumber} Status: {RoomStatus}");
+        }
+
+        public void DisplayInfo()
+        {
+            string RoomStatus = IsOccupied ? "Busy" : "Available";
+            Console.WriteLine($"Room Number: {RoomNumber} | Room Type: {roomType} | Room Status: {RoomStatus}");
         }
     }
 }

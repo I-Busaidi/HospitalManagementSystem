@@ -8,5 +8,6 @@ namespace HospitalManagementSystem
 {
     public interface IPatientCare
     {
+        void CheckVitals(Patient patient);
     }
 }

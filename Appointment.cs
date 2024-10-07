@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HospitalManagementSystem
 {
-    public class Appointment
+    public class Appointment : IDisplayInfo, ISchedulable
     {
         public Patient? Patient { get; private set; }
         public DateTime AppointmentDate { get; private set; }
@@ -41,13 +41,13 @@ namespace HospitalManagementSystem
             IsBooked = true;
         }
 
-        public void CancelAppointment(DateTime date, TimeSpan period)
+        public void CancelAppointment(Patient patient, DateTime date, TimeSpan period)
         {
             Patient = null;
             IsBooked = false;
         }
 
-        public void GetAppointmentDetails()
+        public void DisplayInfo()
         {
             if (IsBooked && Patient != null)
             {

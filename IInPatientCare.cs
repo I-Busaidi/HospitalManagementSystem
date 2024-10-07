@@ -8,6 +8,7 @@ namespace HospitalManagementSystem
 {
     public interface IInPatientCare : IPatientCare
     {
-
+        void AssignRoomToPatient(InPatient patient, Room room);
+        void DischargePatient(InPatient patient);
     }
 }

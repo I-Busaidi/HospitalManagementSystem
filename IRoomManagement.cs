@@ -8,6 +8,8 @@ namespace HospitalManagementSystem
 {
     public interface IRoomManagement
     {
-
+        void OccupyRoom();
+        void VacateRoom();
+        void GetOccupiedStatus();
     }
 }

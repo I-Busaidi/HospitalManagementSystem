@@ -17,7 +17,7 @@ namespace HospitalManagementSystem
 
         public void BookAppointment(Clinic clinic, DateTime appointmentDay, TimeSpan appointmentTime)
         {
-            clinic.BookAppointment(this, appointmentDay, appointmentTime);
+            clinic.ScheduleAppointment(this, appointmentDay, appointmentTime);
         }
 
         public override void DisplayInfo()

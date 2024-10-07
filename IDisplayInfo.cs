@@ -8,5 +8,6 @@ namespace HospitalManagementSystem
 {
     public interface IDisplayInfo
     {
+        void DisplayInfo();
     }
 }

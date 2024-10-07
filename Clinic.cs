@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace HospitalManagementSystem
 {
-    public class Clinic
+    public class Clinic : IDisplayInfo, ISchedulable
     {
         public int ClinicID { get; private set; }
         public string ClinicName { get; private set; }
@@ -55,7 +55,9 @@ namespace HospitalManagementSystem
             {
                 foreach (var appointment in appointments)
                 {
-                    if (appointment.AppointmentDate == appointmentDay && appointment.AppointmentTime == appointmentTime && !appointment.IsBooked)
+                    if (appointment.AppointmentDate == appointmentDay 
+                        && appointment.AppointmentTime == appointmentTime 
+                        && !appointment.IsBooked)
                     {
                         appointment.ScheduleAppointment(patient, appointmentDay, appointmentTime);
                         Console.WriteLine($"Patient {patient.Name} has been assigned to {ClinicName}");
@@ -67,13 +69,15 @@ namespace HospitalManagementSystem
             Console.WriteLine($"Sorry, no available appointments on {appointmentDay.ToString("ddd ~ dd MMM, yyyy")} at {appointmentTime}.");
         }
 
-        public void BookAppointment(Patient patient, DateTime appointmentDay, TimeSpan appointmentTime)
+        public void ScheduleAppointment(Patient patient, DateTime appointmentDay, TimeSpan appointmentTime)
         {
             foreach (var Kvp in AvailableAppointments)
             {
                 for (int i = 0; i < Kvp.Value.Count; i++)
                 {
-                    if (Kvp.Value[i].AppointmentDate == appointmentDay && Kvp.Value[i].AppointmentTime == appointmentTime && !Kvp.Value[i].IsBooked)
+                    if (Kvp.Value[i].AppointmentDate == appointmentDay 
+                        && Kvp.Value[i].AppointmentTime == appointmentTime 
+                        && !Kvp.Value[i].IsBooked)
                     {
                         Kvp.Value[i].ScheduleAppointment(patient, appointmentDay, appointmentTime);
                         Console.WriteLine($"Patient {patient.Name} has been assigned to {ClinicName}");
@@ -91,9 +95,12 @@ namespace HospitalManagementSystem
             {
                 for (int i = 0; i < Kvp.Value.Count; i++)
                 {
-                    if (Kvp.Value[i].AppointmentDate == appointmentDay && Kvp.Value[i].AppointmentTime == appointmentTime && Kvp.Value[i].IsBooked )
+                    if (Kvp.Value[i].AppointmentDate == appointmentDay 
+                        && Kvp.Value[i].AppointmentTime == appointmentTime 
+                        && Kvp.Value[i].IsBooked 
+                        && Kvp.Value[i].Patient.Name == patient.Name)
                     {
-                        Kvp.Value[i].CancelAppointment(appointmentDay, appointmentTime);
+                        Kvp.Value[i].CancelAppointment(patient, appointmentDay, appointmentTime);
                         Console.WriteLine($"Appointment at {appointmentTime} for patient {patient.Name} cancelled.");
                         return;
                     }
@@ -139,6 +146,24 @@ namespace HospitalManagementSystem
             }
 
             Console.WriteLine( sb.ToString());
+        }
+
+        public void DisplayInfo()
+        {
+            StringBuilder sb = new StringBuilder();
+            string border = new string('-', 35);
+            sb.AppendLine($"Clinic Name: {ClinicName}");
+            sb.AppendLine($"Clinic ID: {ClinicID}");
+            sb.AppendLine($"Specialization: {specialization}");
+            sb.AppendLine("Rooms:");
+            sb.AppendLine($"{"Room No.", -10} | {"Room Type", -20}");
+            sb.AppendLine(border);
+            for (int i = 0;i < rooms.Count;i++)
+            {
+                sb.AppendLine($"{rooms[i].RoomNumber,-10} | {rooms[i].roomType,-20}");
+            }
+
+            Console.WriteLine(sb.ToString());
         }
     }
 }
