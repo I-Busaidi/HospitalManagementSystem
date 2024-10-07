@@ -448,5 +448,73 @@ namespace HospitalManagementSystem
 
             return RoomExists;
         }
+
+        public static void AssignRoomToInPatient()
+        {
+            var PatientList = hospital.GetInPatients();
+            var RoomsList = hospital.GetRooms();
+            StringBuilder sb = new StringBuilder();
+            string border = new string('-', 50);
+
+            sb.AppendLine("Unassigned In-Patients:");
+            sb.AppendLine();
+            sb.AppendLine($"{"Name", -20} | {"ID", -20} | {"Ailment", -10}");
+            sb.AppendLine(border);
+
+            for (int i = 0; i < PatientList.Count; i++)
+            {
+                if (PatientList[i].Room == null)
+                {
+                    sb.AppendLine($"{PatientList[i].Name,-20} | {PatientList[i].PatientID,-20} | {PatientList[i].Ailment,-10}");
+                }
+            }
+
+            sb.AppendLine();
+            sb.AppendLine("Choose a patient from the listing number:");
+            sb.AppendLine();
+            Console.Clear();
+            Console.WriteLine( sb.ToString());
+
+            int InPatientNumber;
+            while(!int.TryParse(Console.ReadLine(), out InPatientNumber) || InPatientNumber > PatientList.Count || InPatientNumber < 1)
+            {
+                Console.Clear();
+                Console.WriteLine(sb.ToString());
+                Console.WriteLine("Invalid input, please try again:\n");
+            }
+
+            sb.Clear();
+            Console.Clear();
+
+            sb.AppendLine("Available Rooms:");
+            sb.AppendLine();
+            sb.AppendLine($"{"Number",-10} | {"Type",-20}");
+            sb.AppendLine(border);
+
+            for (int i = 0; i < RoomsList.Count; i++)
+            {
+                if (RoomsList[i].IsOccupied != true)
+                {
+                    sb.AppendLine($"{RoomsList[i].RoomNumber,-20} | {RoomsList[i].roomType,-20}");
+                }
+            }
+
+            sb.AppendLine();
+            sb.AppendLine($"Choose a room to assign to patient {PatientList[InPatientNumber - 1]}:");
+            sb.AppendLine();
+            Console.WriteLine(sb.ToString());
+
+            int AssignedRoom;
+            while (!int.TryParse(Console.ReadLine(), out AssignedRoom) || AssignedRoom > RoomsList.Count || AssignedRoom < 1)
+            {
+                Console.Clear();
+                Console.WriteLine(sb.ToString());
+                Console.WriteLine("Invalid input, please try again:\n");
+            }
+
+            sb.Clear();
+            Console.Clear();
+            hospital.AssignRoomToPatient(PatientList[InPatientNumber - 1], RoomsList[AssignedRoom - 1]);
+        }
     }
 }

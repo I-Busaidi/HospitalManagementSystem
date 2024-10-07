@@ -123,6 +123,16 @@ namespace HospitalManagementSystem
             return patientsList;
         }
 
+        public List<InPatient> GetInPatients()
+        {
+            return inPatients;
+        }
+
+        public List<OutPatient> GetOutPatients()
+        {
+            return outPatients;
+        }
+
         public List<Room> GetRooms()
         {
             return roomsList;
