@@ -54,16 +54,18 @@ namespace HospitalManagementSystem
 
         public void DischargePatient(InPatient inPatient)
         {
-            if (inPatient.Room != null)
-            {
-                inPatient.Room.VacateRoom();
-                Console.WriteLine($"Patient {inPatient.Name} admitted on {inPatient.AdmissionDate.ToString("ddd ~ dd MMM, yyyy")} has been discharged on {DateTime.Now.ToString("ddd ~ dd MMM, yyyy")}");
-                inPatient.VacateRoom();
-            }
-            else
-            {
-                Console.WriteLine("Room is already vacated.");
-            }
+            inPatient.Discharge();
+        }
+
+        public void AssignPatient(Patient patient)
+        {
+            AssignedPatients.Add(patient);
+            Console.WriteLine("");
+        }
+
+        public void RemoveAssignedPatient(Patient patient)
+        {
+            AssignedPatients.Remove(patient);
         }
 
         public void ScheduleFollowUpAppointment(OutPatient outPatient, Clinic clinic, DateTime appointmentDay, TimeSpan appointmentTime)

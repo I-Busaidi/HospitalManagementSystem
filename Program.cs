@@ -568,7 +568,7 @@ namespace HospitalManagementSystem
             Console.WriteLine( sb.ToString());
 
             int InPatientNumber;
-            while(!int.TryParse(Console.ReadLine(), out InPatientNumber) || InPatientNumber > PatientList.Count || InPatientNumber < 1)
+            while(!int.TryParse(Console.ReadLine(), out InPatientNumber) || InPatientNumber > count || InPatientNumber < 1)
             {
                 Console.Clear();
                 Console.WriteLine(sb.ToString());
@@ -599,7 +599,7 @@ namespace HospitalManagementSystem
             Console.WriteLine(sb.ToString());
 
             int AssignedRoom;
-            while (!int.TryParse(Console.ReadLine(), out AssignedRoom) || AssignedRoom > RoomsList.Count || AssignedRoom < 1)
+            while (!int.TryParse(Console.ReadLine(), out AssignedRoom) || AssignedRoom > count || AssignedRoom < 1)
             {
                 Console.Clear();
                 Console.WriteLine(sb.ToString());
@@ -675,6 +675,42 @@ namespace HospitalManagementSystem
             }
 
             hospital.AssignNurseToClinic(NurseList[NurseNumber-1], ClinicsList[ClinicNumber-1]);
+        }
+
+        public static void DischargeInPatient()
+        {
+            var InPatientsList = hospital.GetInPatients();
+            StringBuilder sb = new StringBuilder();
+            string border = new string('-', 50);
+            sb.AppendLine("Admitted In-Patients:");
+            sb.AppendLine();
+            sb.AppendLine($"{"No.", -5} | {"Name", -20} | {"ID", -5} | {"Ailment", -20} | {"Room", -5}");
+            sb.AppendLine(border);
+            int count = 1;
+            for (int i = 0; i < InPatientsList.Count;i++)
+            {
+                if (InPatientsList[i].Room != null)
+                {
+                    sb.AppendLine($"{count,-5} | {InPatientsList[i].Name,-20} | {InPatientsList[i].PatientID,-5} | {InPatientsList[i].Ailment,-20} | {InPatientsList[i].Room, -5}");
+                    count++;
+                }
+            }
+            sb.AppendLine();
+            sb.AppendLine("Choose an In-Patient to discharge:");
+            sb.AppendLine();
+
+            Console.Clear();
+            Console.WriteLine(sb.ToString());
+
+            int InPatientChoice;
+            while (!int.TryParse(Console.ReadLine(), out InPatientChoice) || InPatientChoice < 1 || InPatientChoice > count)
+            {
+                Console.Clear();
+                Console.WriteLine(sb.ToString());
+                Console.WriteLine("\nInvalid input, please try again:\n");
+            }
+
+            hospital.DischargePatient(InPatientsList[InPatientChoice - 1]);
         }
     }
 }

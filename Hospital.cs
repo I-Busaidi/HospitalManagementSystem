@@ -127,6 +127,11 @@ namespace HospitalManagementSystem
             }
         }
 
+        public void DischargePatient(InPatient inPatient)
+        {
+            inPatient.Discharge();
+        }
+
         public void GetDoctorPatients(Doctor doctor)
         {
             if (doctor.PatientsList.Count == 0)
@@ -152,8 +157,6 @@ namespace HospitalManagementSystem
         {
             return nursesList;
         }
-
-
 
         public List<(Patient, bool)> GetPatients()
         {
