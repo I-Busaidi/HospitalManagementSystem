@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using static HospitalManagementSystem.Clinic;
 using static HospitalManagementSystem.Doctor;
+using static HospitalManagementSystem.Nurse;
 using static HospitalManagementSystem.Person;
 using static HospitalManagementSystem.Room;
 
@@ -197,6 +198,95 @@ namespace HospitalManagementSystem
                 DSpec = DocSpecialization.Dermatology;
             }
             hospital.AddDoctor(new Doctor(DId, DName, DAge, DGender, DSpec));
+        }
+
+        public static void AddNurse()
+        {
+            int NId;
+            int NursesCount = hospital.GetNurses().Count;
+            if (NursesCount == 0)
+            {
+                NId = 1;
+            }
+            else
+            {
+                NId = hospital.GetNurses()[NursesCount - 1].NurseID + 1;
+            }
+
+            string NurseName;
+            Console.Clear();
+            Console.WriteLine("Enter the new nurse's name:\n");
+            while (string.IsNullOrEmpty(NurseName = Console.ReadLine()) || !Regex.IsMatch(NameRegexFormat, NurseName))
+            {
+                Console.Clear();
+                Console.WriteLine("Enter the new nurse's name:\n");
+                Console.WriteLine("\nInvalid input, please try again.\n");
+            }
+
+            int NurseAge;
+            Console.Clear();
+            Console.WriteLine("Enter the new nurse's age:\n");
+            while (!int.TryParse(Console.ReadLine(), out NurseAge) || NurseAge < 20)
+            {
+                Console.Clear();
+                Console.WriteLine("Enter the new nurse's age:\n");
+                if (NurseAge < 20)
+                {
+                    Console.WriteLine("\nAge cannot be lower than 20, please try again.\n");
+                }
+                else
+                {
+                    Console.WriteLine("\nInvalid input, please try again.");
+                }
+            }
+
+            int GenderChoice;
+            Console.Clear();
+            Console.WriteLine("Choose the appropriate gender:\n\n1. Male\n\n2. Female\n\n3. Other");
+            while (!int.TryParse(Console.ReadLine(), out GenderChoice) || GenderChoice > 3 || GenderChoice < 1)
+            {
+                Console.Clear();
+                Console.WriteLine("Choose the appropriate gender:\n\n1. Male\n\n2. Female\n\n3. Other\n");
+                Console.WriteLine("\nInvalid input, please try again.\n");
+            }
+            Gender NurseGender;
+            if (GenderChoice == 1)
+            {
+                NurseGender = Gender.Male;
+            }
+            else if (GenderChoice == 2)
+            {
+                NurseGender = Gender.Female;
+            }
+            else
+            {
+                NurseGender = Gender.Other;
+            }
+
+            int SpecChoice;
+            Console.Clear();
+            Console.WriteLine("Choose the appropriate Specialization:\n\n1. General\n\n2. Pediatrics\n\n3. Surgery");
+            while (!int.TryParse(Console.ReadLine(), out SpecChoice) || SpecChoice > 3 || SpecChoice < 1)
+            {
+                Console.Clear();
+                Console.WriteLine("Choose the appropriate Specialization:\n\n1. General\n\n2. Pediatrics\n\n3. Surgery");
+                Console.WriteLine("\nInvalid input, please try again.\n");
+            }
+
+            NurseSpecialization NurseSpec;
+            if (SpecChoice == 1)
+            {
+                NurseSpec = NurseSpecialization.General;
+            }
+            else if (SpecChoice == 2)
+            {
+                NurseSpec = NurseSpecialization.Pediatrics;
+            }
+            else
+            {
+                NurseSpec = NurseSpecialization.Surgery;
+            }
+            hospital.AddNurse(new Nurse(NId, NurseName, NurseAge, NurseGender, NurseSpec));
         }
 
         public static void AddPatient()

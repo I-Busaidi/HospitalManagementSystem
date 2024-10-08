@@ -20,7 +20,7 @@ namespace HospitalManagementSystem
 
         public Doctor assistDoctor { get; private set; }
 
-        public Nurse(int NurseID, string Name, int Age, Gender gender, Clinic AssignedClinic, NurseSpecialization specialization) : base(Name, Age, gender)
+        public Nurse(int NurseID, string Name, int Age, Gender gender, NurseSpecialization specialization) : base(Name, Age, gender)
         {
             this.NurseID = NurseID;
             this.AssignedClinic = AssignedClinic;

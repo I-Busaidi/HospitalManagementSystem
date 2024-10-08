@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -15,6 +16,7 @@ namespace HospitalManagementSystem
         private static List<Clinic>? clinicsList;
         private static List<InPatient>? inPatients;
         private static List<OutPatient>? outPatients;
+        private static List<Nurse>? nursesList;
 
 
         static Hospital()
@@ -25,6 +27,7 @@ namespace HospitalManagementSystem
             clinicsList = new List<Clinic>();
             inPatients = new List<InPatient>();
             outPatients = new List<OutPatient>();
+            nursesList = new List<Nurse>();
         }
 
         public void AddDoctor(Doctor doctor)
@@ -37,6 +40,19 @@ namespace HospitalManagementSystem
             else
             {
                 Console.WriteLine($"Doctor {doctor.Name} is already in the hospital.");
+            }
+        }
+
+        public void AddNurse(Nurse nurse)
+        {
+            if (!nursesList.Contains(nurse))
+            {
+                nursesList.Add(nurse);
+                Console.WriteLine($"Nurse {nurse.Name} added to the hospital.");
+            }
+            else
+            {
+                Console.WriteLine($"Nurse {nurse.Name} is already added to the hospital.");
             }
         }
 
@@ -116,6 +132,11 @@ namespace HospitalManagementSystem
         public List<Doctor> GetDoctors()
         {
             return doctorsList;
+        }
+
+        public List<Nurse> GetNurses()
+        {
+            return nursesList;
         }
 
         public List<(Patient, bool)> GetPatients()
