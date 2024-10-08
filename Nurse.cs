@@ -28,6 +28,11 @@ namespace HospitalManagementSystem
             AssignedPatients = new List<Patient>() { };
         }
 
+        public void AssignToClinic(Clinic clinic)
+        {
+            AssignedClinic = clinic;
+        }
+
         public void AssistDoctor(Doctor doctor, Patient patient)
         {
             doctor.SetAssistingNurse(this);
