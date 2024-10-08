@@ -19,6 +19,7 @@ namespace HospitalManagementSystem
         public Specialization specialization { get; private set; }
         public List<Room> rooms = new List<Room>();
         public Dictionary<Doctor, List<Appointment>> AvailableAppointments = new Dictionary<Doctor, List<Appointment>>();
+        public List<Nurse> ClinicNursesList = new List<Nurse>();
 
         public Clinic(int ClinicID, string ClinicName, Specialization specialization)
         {

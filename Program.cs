@@ -548,14 +548,16 @@ namespace HospitalManagementSystem
 
             sb.AppendLine("Unassigned In-Patients:");
             sb.AppendLine();
-            sb.AppendLine($"{"Name", -20} | {"ID", -20} | {"Ailment", -10}");
+            sb.AppendLine($"{"No.", -5} | {"Name", -20} | {"ID", -20} | {"Ailment", -10}");
             sb.AppendLine(border);
 
+            int count = 1;
             for (int i = 0; i < PatientList.Count; i++)
             {
                 if (PatientList[i].Room == null)
                 {
-                    sb.AppendLine($"{PatientList[i].Name,-20} | {PatientList[i].PatientID,-20} | {PatientList[i].Ailment,-10}");
+                    sb.AppendLine($"{count} | {PatientList[i].Name,-20} | {PatientList[i].PatientID,-20} | {PatientList[i].Ailment,-10}");
+                    count++;
                 }
             }
 
@@ -578,14 +580,16 @@ namespace HospitalManagementSystem
 
             sb.AppendLine("Available Rooms:");
             sb.AppendLine();
-            sb.AppendLine($"{"Number",-10} | {"Type",-20}");
+            sb.AppendLine($"{"No.", -5} | {"Number",-10} | {"Type",-20}");
             sb.AppendLine(border);
 
+            count = 1;
             for (int i = 0; i < RoomsList.Count; i++)
             {
                 if (RoomsList[i].IsOccupied != true)
                 {
-                    sb.AppendLine($"{RoomsList[i].RoomNumber,-20} | {RoomsList[i].roomType,-20}");
+                    sb.AppendLine($"{count} | {RoomsList[i].RoomNumber,-20} | {RoomsList[i].roomType,-20}");
+                    count++;
                 }
             }
 
@@ -605,6 +609,72 @@ namespace HospitalManagementSystem
             sb.Clear();
             Console.Clear();
             hospital.AssignRoomToPatient(PatientList[InPatientNumber - 1], RoomsList[AssignedRoom - 1]);
+        }
+
+        public static void AssignNurseToClinic()
+        {
+            var NurseList = hospital.GetNurses();
+            var ClinicsList = hospital.GetClinics();
+
+            StringBuilder sb = new StringBuilder();
+            string border = new string('-', 60);
+            sb.AppendLine("Unassigned Nurses:");
+            sb.AppendLine();
+            sb.AppendLine($"{"No.", -5} | {"Name", -20} | {"ID", -5} | {"Specialization", -20}");
+            sb.AppendLine(border);
+
+            int count = 1;
+            for (int i = 0; i < NurseList.Count; i++)
+            {
+                if (NurseList[i].AssignedClinic == null)
+                {
+                    sb.AppendLine($"{count,-5} | {NurseList[i].Name,-20} | {NurseList[i].NurseID,-5} | {NurseList[i].NurseSpec,-20}");
+                    count++;
+                }
+            }
+
+            sb.AppendLine();
+            sb.AppendLine($"Choose a nurse to assign:");
+            sb.AppendLine();
+            Console.WriteLine(sb.ToString());
+
+            int NurseNumber;
+            while (!int.TryParse(Console.ReadLine(), out NurseNumber) || NurseNumber > NurseList.Count || NurseNumber < 1)
+            {
+                Console.Clear();
+                Console.WriteLine(sb.ToString());
+                Console.WriteLine("Invalid input, please try again:\n");
+            }
+
+            sb.Clear();
+            Console.Clear();
+
+            sb.AppendLine("Available Clinics:");
+            sb.AppendLine();
+            sb.AppendLine($"{"No.",-5} | {"Name",-20} | {"ID",-5} | {"Specialization",-20}");
+            sb.AppendLine(border);
+
+            count = 1;
+            for (int i = 0; i < ClinicsList.Count; i++)
+            {
+                sb.AppendLine($"{count,-5} | {ClinicsList[i].ClinicName,-20} | {ClinicsList[i].ClinicID,-5} | {ClinicsList[i].specialization,-20}");
+                count++;
+            }
+
+            sb.AppendLine();
+            sb.AppendLine($"Choose a clinic to assign nurse {NurseList[NurseNumber-1].Name} to:");
+            sb.AppendLine();
+            Console.WriteLine(sb.ToString());
+
+            int ClinicNumber;
+            while (!int.TryParse(Console.ReadLine(), out ClinicNumber) || ClinicNumber > ClinicsList.Count || ClinicNumber < 1)
+            {
+                Console.Clear();
+                Console.WriteLine(sb.ToString());
+                Console.WriteLine("Invalid input, please try again:\n");
+            }
+
+            hospital.AssignNurseToClinic(NurseList[NurseNumber-1], ClinicsList[ClinicNumber-1]);
         }
     }
 }

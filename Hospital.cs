@@ -56,6 +56,20 @@ namespace HospitalManagementSystem
             }
         }
 
+        public void AssignNurseToClinic(Nurse nurse, Clinic clinic)
+        {
+            if (!clinic.ClinicNursesList.Contains(nurse))
+            {
+                clinic.ClinicNursesList.Add(nurse);
+                nurse.AssignToClinic(clinic);
+                Console.WriteLine($"Nurse {nurse.Name} has been added to clinic: {clinic.ClinicName}");
+            }
+            else
+            {
+                Console.WriteLine($"Nurse {nurse.Name} is already assigned to this clinic.");
+            }
+        }
+
         public void AddPatient(Patient patient, bool IsInPatient, Doctor? doctor = null, string? admissionDate = null, Clinic? clinic = null)
         {
             if (patientsList.Contains((patient, true)) || patientsList.Contains((patient, false)))
@@ -138,6 +152,8 @@ namespace HospitalManagementSystem
         {
             return nursesList;
         }
+
+
 
         public List<(Patient, bool)> GetPatients()
         {

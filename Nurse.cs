@@ -23,7 +23,6 @@ namespace HospitalManagementSystem
         public Nurse(int NurseID, string Name, int Age, Gender gender, NurseSpecialization specialization) : base(Name, Age, gender)
         {
             this.NurseID = NurseID;
-            this.AssignedClinic = AssignedClinic;
             NurseSpec = specialization;
             AssignedPatients = new List<Patient>() { };
         }
