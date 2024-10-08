@@ -41,6 +41,11 @@ namespace HospitalManagementSystem
             }
         }
 
+        public void VacateRoom()
+        {
+            Room = null;
+        }
+
         public override void DisplayInfo()
         {
             Console.WriteLine($"Patient ID: {PatientID}, Name: {Name}, Age: {Age}\n" +

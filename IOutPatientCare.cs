@@ -8,6 +8,6 @@ namespace HospitalManagementSystem
 {
     public interface IOutPatientCare : IPatientCare
     {
-        void ScheduleFollowUpAppointment(OutPatient outPatient, Clinic clinic);
+        void ScheduleFollowUpAppointment(OutPatient outPatient, Clinic clinic, DateTime appointmentDay, TimeSpan appointmentTime);
     }
 }

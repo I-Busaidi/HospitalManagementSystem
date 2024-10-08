@@ -7,7 +7,7 @@ using static HospitalManagementSystem.Doctor;
 
 namespace HospitalManagementSystem
 {
-    public class Nurse : Person, IPatientCare
+    public class Nurse : Person, IInPatientCare, IOutPatientCare
     {
         public int NurseID { get; private set; }
         public Clinic AssignedClinic { get; private set; }
@@ -33,6 +33,38 @@ namespace HospitalManagementSystem
             doctor.SetAssistingNurse(this);
             AssignedPatients.Add(patient);
             assistDoctor = doctor;
+        }
+        public void AssignRoomToPatient(InPatient inPatient, Room room)
+        {
+            if (room.IsOccupied)
+            {
+                Console.WriteLine($"Room {room.RoomNumber} is already occupied.");
+            }
+            else
+            {
+                room.OccupyRoom();
+                inPatient.AssignRoom(room);
+                Console.WriteLine($"Room {room.RoomNumber} assigned to patient {inPatient.Name}.");
+            }
+        }
+
+        public void DischargePatient(InPatient inPatient)
+        {
+            if (inPatient.Room != null)
+            {
+                inPatient.Room.VacateRoom();
+                Console.WriteLine($"Patient {inPatient.Name} admitted on {inPatient.AdmissionDate.ToString("ddd ~ dd MMM, yyyy")} has been discharged on {DateTime.Now.ToString("ddd ~ dd MMM, yyyy")}");
+                inPatient.VacateRoom();
+            }
+            else
+            {
+                Console.WriteLine("Room is already vacated.");
+            }
+        }
+
+        public void ScheduleFollowUpAppointment(OutPatient outPatient, Clinic clinic, DateTime appointmentDay, TimeSpan appointmentTime)
+        {
+            outPatient.BookAppointment(clinic, appointmentDay, appointmentTime);
         }
 
         public void CheckVitals(Patient patient)
