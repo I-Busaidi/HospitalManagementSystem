@@ -148,6 +148,11 @@ namespace HospitalManagementSystem
             }
         }
 
+        public void AddAppointments(Clinic clinic, Doctor doctor, DateTime appointmentDay, TimeSpan appointmentTime)
+        {
+            clinic.AddAvailableAppointment(doctor, appointmentDay, appointmentTime);
+        }
+
         public List<Doctor> GetDoctors()
         {
             return doctorsList;

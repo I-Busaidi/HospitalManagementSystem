@@ -712,5 +712,85 @@ namespace HospitalManagementSystem
 
             hospital.DischargePatient(InPatientsList[InPatientChoice - 1]);
         }
+
+        public static void AddAppointmentSlots()
+        {
+            var DocList = hospital.GetDoctors();
+            StringBuilder sb = new StringBuilder();
+            string border = new string('-', 50);
+            sb.AppendLine("Doctors:");
+            sb.AppendLine();
+            sb.AppendLine($"{"No.", -5} | {"Name", -20} | {"ID", -5} | {"Specialization", -20}");
+            sb.AppendLine(border);
+            int count = 1;
+            for (int i = 0;i < DocList.Count;i++)
+            {
+                sb.AppendLine($"{count,-5} | {DocList[i].Name,-20} | {DocList[i].DoctorID,-5} | {DocList[i].specialization,-20}");
+                count++;
+            }
+            sb.AppendLine();
+            sb.AppendLine("Choose a doctor from the list:");
+            sb.AppendLine();
+
+            int DocChoice;
+            Console.Clear();
+            Console.WriteLine(sb.ToString());
+            while (!int.TryParse(Console.ReadLine(), out DocChoice) || DocChoice < 1 || DocChoice > count)
+            {
+                Console.Clear();
+                Console.WriteLine(sb.ToString());
+                Console.WriteLine("Invalid input, please try again:\n");
+            }
+
+            sb.Clear();
+            Console.Clear();
+            var ClinicsList = hospital.GetClinics();
+            sb.AppendLine("Available Clinics:");
+            sb.AppendLine();
+            sb.AppendLine($"{"No.",-5} | {"Name",-20} | {"ID",-5} | {"Specialization",-20}");
+            sb.AppendLine(border);
+
+            count = 1;
+            for (int i = 0; i < ClinicsList.Count; i++)
+            {
+                sb.AppendLine($"{count,-5} | {ClinicsList[i].ClinicName,-20} | {ClinicsList[i].ClinicID,-5} | {ClinicsList[i].specialization,-20}");
+                count++;
+            }
+
+            sb.AppendLine();
+            sb.AppendLine($"Choose a clinic to add doctor {DocList[DocChoice-1].Name} appointments to:");
+            sb.AppendLine();
+            Console.WriteLine(sb.ToString());
+
+            int ClinicNumber;
+            while (!int.TryParse(Console.ReadLine(), out ClinicNumber) || ClinicNumber > ClinicsList.Count || ClinicNumber < 1)
+            {
+                Console.Clear();
+                Console.WriteLine(sb.ToString());
+                Console.WriteLine("Invalid input, please try again:\n");
+            }
+
+            DateTime AppointmentDay;
+            Console.Clear();
+            Console.WriteLine("Enter the date of the day for the appointments:\n");
+            while(DateTime.TryParse(Console.ReadLine(), out AppointmentDay) || AppointmentDay < DateTime.Now)
+            {
+                Console.Clear();
+                Console.WriteLine("Enter the date of the day for the appointments:\n");
+                Console.WriteLine("\nInvalid input, please try again:\n");
+            }
+
+            TimeSpan AppointmentTime;
+            Console.Clear();
+            Console.WriteLine("Enter the total time period for the appointments:\n");
+            while(TimeSpan.TryParse(Console.ReadLine(), out AppointmentTime) || AppointmentTime.Hours < 1)
+            {
+                Console.Clear();
+                Console.WriteLine("Enter the total time period for the appointments:\n");
+                Console.WriteLine("\nInvalid input, please try again:\n");
+            }
+
+            hospital.AddAppointments(ClinicsList[ClinicNumber-1], DocList[DocChoice-1], AppointmentDay, AppointmentTime);
+        }
     }
 }
