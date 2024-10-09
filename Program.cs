@@ -792,5 +792,73 @@ namespace HospitalManagementSystem
 
             hospital.AddAppointments(ClinicsList[ClinicNumber-1], DocList[DocChoice-1], AppointmentDay, AppointmentTime);
         }
+
+        public static void AddRoomToClinic()
+        {
+            var ClinicsList = hospital.GetClinics();
+            StringBuilder sb = new StringBuilder();
+            string border = new string('-', 60);
+            sb.AppendLine("Available Clinics:");
+            sb.AppendLine();
+            sb.AppendLine($"{"No.",-5} | {"Name",-20} | {"ID",-5} | {"Specialization",-20}");
+            sb.AppendLine(border);
+
+            int count = 1;
+            for (int i = 0; i < ClinicsList.Count; i++)
+            {
+                sb.AppendLine($"{count,-5} | {ClinicsList[i].ClinicName,-20} | {ClinicsList[i].ClinicID,-5} | {ClinicsList[i].specialization,-20}");
+                count++;
+            }
+
+            sb.AppendLine();
+            sb.AppendLine($"Choose a clinic to add a room to:");
+            sb.AppendLine();
+            Console.WriteLine(sb.ToString());
+
+            int ClinicNumber;
+            while (!int.TryParse(Console.ReadLine(), out ClinicNumber) || ClinicNumber > ClinicsList.Count || ClinicNumber < 1)
+            {
+                Console.Clear();
+                Console.WriteLine(sb.ToString());
+                Console.WriteLine("Invalid input, please try again:\n");
+            }
+
+            var RoomsList = hospital.GetRooms();
+            sb.Clear();
+            Console.Clear();
+
+            sb.AppendLine("Available Rooms:");
+            sb.AppendLine();
+            sb.AppendLine($"{"No.",-5} | {"Number",-10} | {"Type",-20}");
+            sb.AppendLine(border);
+
+            count = 1;
+            for (int i = 0; i < RoomsList.Count; i++)
+            {
+                if (RoomsList[i].IsOccupied != true)
+                {
+                    sb.AppendLine($"{count} | {RoomsList[i].RoomNumber,-20} | {RoomsList[i].roomType,-20}");
+                    count++;
+                }
+            }
+
+            sb.AppendLine();
+            sb.AppendLine($"Choose a clinic to add a room to {ClinicsList[ClinicNumber-1].ClinicName}:");
+            sb.AppendLine();
+            Console.WriteLine(sb.ToString());
+
+            int AssignedRoom;
+            while (!int.TryParse(Console.ReadLine(), out AssignedRoom) || AssignedRoom > count || AssignedRoom < 1)
+            {
+                Console.Clear();
+                Console.WriteLine(sb.ToString());
+                Console.WriteLine("Invalid input, please try again:\n");
+            }
+
+            sb.Clear();
+            Console.Clear();
+
+            ClinicsList[ClinicNumber - 1].AddRoom(RoomsList[AssignedRoom-1]);
+        }
     }
 }
